@@ -1,0 +1,10 @@
+node_modules/
+local/
+.claude/
+*.xlsx
+*.xls
+*.csv
+*.pdf
+truc_thang_du_lieu*.json
+tasks/
+.DS_Store

@@ -1,0 +1,2577 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Chấm công trực</title>
+<style>
+:root { color-scheme: light; --ink: #1b1f24; --muted: #586069; --line: #c9d1d9; --bg: #f4f6f8; --card: #fff; --accent: #1d4ed8; --err: #b00020; --warn-bg: #fff4e0; --warn-ink: #6b3f00; --focus: #ffbf47; --we: #e6e6e6; --le: #f8c6ec; --grid: #b8c0c9; --grid-dam: #7d8794; --w-stt: 34px; --w-ten: 160px; --w-cd: 158px; --w-ngay: 26px; --w-dem: 50px; --w-hd: 84px; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); }
+button, input, select { font: inherit; color: inherit; }
+button { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); cursor: pointer; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.chinh { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.nho { padding: 0 6px; line-height: 22px; }
+input, select { padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); }
+input[aria-invalid="true"] { border-color: var(--err); background: #fff0f0; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+h1 { font-size: 18px; margin: 0; }
+h2 { font-size: 16px; margin: 0 0 8px; }
+h3 { font-size: 15px; margin: 12px 0 6px; }
+#thanh-tren { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 8px 16px; background: var(--card); border-bottom: 1px solid var(--line); }
+.hang { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.hang label { display: flex; gap: 6px; align-items: center; }
+#nam { width: 80px; }
+#trang-thai { margin: 0; flex-basis: 100%; font-size: 13px; color: var(--muted); }
+#trang-thai.loi { color: var(--err); }
+#le-loi { color: var(--err); }
+#thong-bao { margin: 8px 16px 0; padding: 8px 12px; border: 1px solid var(--err); border-radius: 6px; background: var(--card); color: var(--err); }
+#thong-bao[hidden] { display: none; }
+#canh-bao { margin: 8px 16px 0; }
+#canh-bao ul { margin: 0 0 8px; padding: 8px 12px 8px 28px; border-radius: 6px; }
+#canh-bao ul.loi { color: var(--err); border: 1px solid var(--err); background: var(--card); }
+#canh-bao ul.canh { color: var(--warn-ink); background: var(--warn-bg); }
+#canh-bao .in-loi { display: none; }
+main { padding: 12px 16px 40px; }
+section.khoi { margin: 0 0 20px; padding: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+.goi-y { margin: 0 0 8px; color: var(--muted); }
+.cuon { overflow-x: auto; }
+.cuon.so { max-height: min(78vh, 900px); overflow: auto; border: 1px solid var(--grid); scroll-padding: 52px 0 34px 360px; }
+table.luoi { border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 13px; }
+table.luoi th, table.luoi td { padding: 0; border-right: 1px solid var(--grid); border-bottom: 1px solid var(--grid); background: #fff; text-align: center; overflow: hidden; }
+table.luoi thead th { position: sticky; top: 0; z-index: 3; padding: 2px 0; background: #e8ecf0; font-weight: 600; }
+table.luoi th small { display: block; font-weight: 400; }
+table.luoi th.n { background: #d4d4d4; }
+table.luoi td.n { background: var(--we); }
+table.luoi th.l, table.luoi td.l { background: var(--le); }
+table.luoi .stt, table.luoi .ten, table.luoi .cd { position: sticky; z-index: 2; }
+table.luoi thead .stt, table.luoi thead .ten, table.luoi thead .cd { z-index: 4; text-align: center; }
+table.luoi .stt { left: 0; }
+table.luoi .ten { left: var(--w-stt); text-align: left; }
+table.luoi .cd { left: calc(var(--w-stt) + var(--w-ten)); border-right: 2px solid var(--grid-dam); text-align: left; }
+table.luoi td input { width: 100%; height: 26px; padding: 0 6px; border: 0; border-radius: 0; background: transparent; }
+table.luoi td.o { height: 26px; cursor: cell; user-select: none; font-weight: 700; }
+table.luoi td.o.bat { background: var(--accent); color: #fff; }
+table.luoi td.o:focus, table.luoi td input:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+table.luoi td.o:focus { box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 9999px var(--dong, transparent); }
+table.luoi tr[data-id] td { box-shadow: inset 0 0 0 9999px var(--dong, transparent); }
+table.luoi tr.chan { --dong: rgba(15, 23, 42, 0.04); }
+table.luoi tr[data-id]:hover { --dong: rgba(29, 78, 216, 0.10); }
+table.luoi tr[data-id].dang-chon { --dong: rgba(29, 78, 216, 0.16); }
+table.luoi tr.dang-chon td.stt, table.luoi tr.dang-chon td.ten input { font-weight: 700; }
+table.luoi thead th.ngay.cot-chon { background: #c7d6f7; }
+table.luoi td input:focus { background: #fff; }
+table.luoi .dem { background: #f6f8fa; font-variant-numeric: tabular-nums; }
+table.luoi thead .dem { background: #e8ecf0; }
+table.luoi td.hd { white-space: nowrap; }
+table.luoi tr.nhom-dau td { padding: 2px 0; overflow: visible; text-align: left; font-weight: 700; border-bottom-color: var(--grid-dam); }
+table.luoi tr.g-dacBiet td { background: #fcd9b4; }
+table.luoi tr.g-thuong td { background: #f7c5e8; }
+table.luoi tr.g-ngoaiBV td { background: #c5e8f7; }
+.nhom-the { position: sticky; left: 0; display: inline-flex; align-items: center; gap: 12px; padding: 0 8px; }
+table.luoi tfoot td { position: sticky; bottom: 0; z-index: 2; background: #e8ecf0; border-top: 2px solid var(--grid-dam); font-weight: 700; }
+table.luoi tfoot td.nhan { left: 0; z-index: 3; padding-left: 8px; text-align: left; }
+#ghi-chu-o { flex-basis: 100%; margin: 0; padding: 4px 8px; border-radius: 6px; background: var(--warn-bg); color: var(--warn-ink); font-size: 13px; }
+#ghi-chu-o:empty { display: none; }
+table.gia, table.le { border-collapse: collapse; }
+table.gia th, table.gia td, table.le th, table.le td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; }
+table.gia input { width: 110px; text-align: right; }
+table.gia td.moingay { color: var(--muted); }
+.dong { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+details summary { cursor: pointer; }
+.chu-ky label { display: block; margin: 6px 0; }
+.chu-ky input[type="text"] { width: 100%; max-width: 720px; }
+.chon-in { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 12px; }
+.form { max-width: 1100px; margin: 0 auto 24px; padding: 10mm; background: #fff; color: #000; border: 1px solid var(--line); font-family: "Times New Roman", Times, serif; font-size: 11pt; line-height: 1.15; overflow-x: auto; }
+.form.skip { opacity: 0.45; }
+.form h3.no-print { margin: 0 0 8px; font-family: system-ui, sans-serif; }
+.form .dau-bang { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.form .trai-bang { min-width: 30%; text-align: center; }
+.form .phai-bang { text-align: center; }
+.form .phai-bang b { display: block; font-size: 11pt; }
+.form .tenbv { min-height: 1.3em; }
+.form .khoa { margin-top: 4px; text-align: left; }
+.form .tieude { margin-top: 2px; text-align: center; font-size: 16pt; font-weight: bold; }
+.form .thangnam { margin: 0 0 4px; text-align: center; font-weight: bold; }
+.form table.bang { border-collapse: collapse; width: 100%; min-width: 1000px; table-layout: fixed; }
+.form table.bang th, .form table.bang td { border: 1px solid #000; padding: 0 3px; overflow: hidden; vertical-align: middle; }
+.form table.bang th { padding: 1px 3px; font-size: 10pt; font-weight: bold; text-align: center; }
+.form table.bang td { height: 18px; }
+.form td.giua { text-align: center; }
+.form td.phai { text-align: right; }
+.form td.trai { text-align: left; }
+.form td.dam { font-weight: bold; }
+.form td.cd { text-align: center; font-size: 8pt; }
+.form tr.tong td { font-weight: bold; }
+.form th.nho { font-size: 7pt; }
+.form table.cc th, .form table.cc td { padding: 0 1px; font-size: 9pt; }
+.form table.cc td.trai { padding-left: 3px; font-size: 10pt; }
+.form table.cc td.o { text-align: center; }
+.form th.thu { height: 46px; padding: 0; }
+.form .doc { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 7pt; }
+.form .cn { background: #d9d9d9; }
+.form .cl { background: #fa72d6; color: #f00; }
+.form .chu { display: flex; margin-top: 4px; font-size: 12pt; }
+.form .chu .nhan { width: 24%; padding-right: 6px; text-align: right; }
+.form .chu .gtri { flex: 1; padding-top: 2px; border-top: 1px solid #000; }
+.form .ngay-ky { width: 36%; margin: 4px 0 0 auto; text-align: center; font-size: 12pt; font-style: italic; white-space: pre; }
+.form .ky { display: flex; justify-content: space-around; margin-top: 2px; text-align: center; font-size: 10pt; font-weight: bold; }
+@page { size: A4 landscape; margin: 8mm; }
+@media print {
+  body { background: #fff; }
+  .no-print, #thanh-tren, #thong-bao { display: none !important; }
+  main { padding: 0; }
+  .form { max-width: none; margin: 0; padding: 0; border: 0; overflow: visible; break-before: page; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .form.dau { break-before: auto; }
+  .form.skip { display: none; }
+  .form table.bang { min-width: 0; }
+  .form tr { break-inside: avoid; }
+  #canh-bao { margin: 0; }
+  #canh-bao ul { display: none; }
+  #canh-bao.co-loi .in-loi { display: block; margin: 0 0 6px; color: #c00; text-align: center; font-size: 16pt; font-weight: bold; }
+}
+@media (max-width: 640px) {
+  #thanh-tren, main { padding-left: 8px; padding-right: 8px; }
+  :root { --w-ten: 120px; --w-cd: 64px; }
+  .cuon.so { scroll-padding-left: 230px; }
+}
+</style>
+</head>
+<body>
+<noscript><p>Trang này cần bật JavaScript để chạy.</p></noscript>
+<header id="thanh-tren" class="no-print">
+  <h1>Chấm công trực</h1>
+  <div class="hang">
+    <button type="button" id="thang-truoc" aria-label="Tháng trước">&#9664;</button>
+    <select id="thang" aria-label="Tháng"></select>
+    <input id="nam" type="number" min="2000" max="2100" aria-label="Năm">
+    <button type="button" id="thang-sau" aria-label="Tháng sau">&#9654;</button>
+    <button type="button" id="thang-nay">Tháng này</button>
+  </div>
+  <div class="hang">
+    <label>Bệnh viện <input id="benh-vien" type="text" size="28"></label>
+    <label>Khoa / phòng <input id="khoa" type="text" size="22"></label>
+  </div>
+  <div class="hang">
+    <button type="button" id="luu-json" hidden>Lưu file JSON</button>
+    <button type="button" id="mo-json" hidden>Mở file JSON</button>
+    <input id="chon-json" type="file" accept=".json,application/json" hidden>
+    <button type="button" id="in" class="chinh">In</button>
+    <button type="button" id="xuat-xlsx">Xuất xlsx</button>
+    <button type="button" id="nhap-xlsx">Nhập từ xlsx</button>
+    <input id="chon-xlsx" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+  </div>
+  <p id="trang-thai" role="status"></p>
+  <p id="ghi-chu-o" role="status"></p>
+</header>
+<p id="thong-bao" role="alert" hidden></p>
+<div id="canh-bao"></div>
+<main>
+  <section class="khoi no-print" id="cham-cong" aria-labelledby="h-cham-cong">
+    <h2 id="h-cham-cong">Chấm công</h2>
+    <p class="goi-y">Bấm một ô để chọn. Gõ T, N hoặc L (hoặc phím cách) để đánh dấu trực, Delete để xóa, bấm đúp cũng đánh dấu. Mũi tên, Enter, Home và End để di chuyển. Chữ hiện ra do trang tự gán theo lịch: T ngày thường, N thứ 7 và chủ nhật, L ngày lễ.</p>
+    <div id="luoi" class="cuon so"></div>
+  </section>
+  <section class="khoi no-print" id="don-gia" aria-labelledby="h-don-gia">
+    <h2 id="h-don-gia">Đơn giá và hệ số của tháng này</h2>
+    <p class="goi-y">Do kế toán xác nhận. Tháng chưa có dữ liệu lấy đơn giá từ tháng gần nhất đã có, hoặc từ file mặc định nếu có; tên và chức danh luôn để trống. Gõ số, ví dụ 100.000 hoặc 1,3.</p>
+    <div id="bang-don-gia" class="cuon"></div>
+  </section>
+  <section class="khoi no-print" id="ngay-le" aria-labelledby="h-ngay-le">
+    <h2 id="h-ngay-le">Ngày lễ năm <span id="ngay-le-nam"></span></h2>
+    <p class="goi-y">Ngày lễ được tính hệ số lễ. Danh sách nạp sẵn cho năm 2026, hãy đối chiếu với thông báo chính thức của nhà nước và đơn vị.</p>
+    <table class="le"><thead><tr><th>Ngày</th><th>Thứ</th><th>Tên</th><th></th></tr></thead><tbody id="ds-ngay-le"></tbody></table>
+    <div class="dong">
+      <input id="le-ngay" type="date" aria-label="Ngày lễ mới">
+      <input id="le-ten" type="text" placeholder="Tên ngày lễ" aria-label="Tên ngày lễ mới" size="24">
+      <button type="button" id="le-them">Thêm ngày lễ</button>
+      <span id="le-loi" role="alert"></span>
+    </div>
+  </section>
+  <section class="khoi no-print chu-ky" id="chu-ky">
+    <details>
+      <summary>Ngày ký và chữ ký cuối bảng</summary>
+      <label>Ngày ký của tháng này <input id="ngay-ky" type="date"></label>
+      <p class="goi-y">Mỗi bảng có một dòng chữ ký, các chức danh cách nhau bằng dấu chấm phẩy.</p>
+      <div id="o-chu-ky"></div>
+    </details>
+  </section>
+  <section id="ban-in" aria-labelledby="h-ban-in">
+    <h2 id="h-ban-in" class="no-print">Bản in</h2>
+    <div class="chon-in no-print" id="chon-in"></div>
+    <div id="cac-bang"></div>
+  </section>
+</main>
+<script id="cong-thuc">
+const TT = (() => {
+  'use strict';
+
+  const GROUP_IDS = ['dacBiet', 'thuong', 'ngoaiBV'];
+  const GROUP_NAMES = { dacBiet: 'Trực đặc biệt', thuong: 'Trực thường', ngoaiBV: 'Trực ngoài BV' };
+  const RATE_FIELDS = ['donGia', 'tienAn', 'heSoNghi', 'heSoLe'];
+  const RATE_LABELS = { donGia: 'Đơn giá', tienAn: 'Tiền ăn', heSoNghi: 'Hệ số nghỉ', heSoLe: 'Hệ số lễ' };
+  const WEEKDAY_SHORT = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+  const WEEKDAY_FULL = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+  const SIGN_FORMS = ['chamCong', 'thuong', 'dacBiet', 'ngoaiBV'];
+  const SIGN_LABELS = {
+    chamCong: ['GIÁM ĐỐC', 'PHÒNG TC-HC', 'PHÒNG KHTH-CĐT-QLCL', 'TRƯỞNG KHOA', 'NGƯỜI LẬP'],
+    thuong: ['GIÁM ĐỐC', 'PHÒNG TC-HC', 'PHÒNG TCKT', 'TRƯỞNG KHOA/PHÒNG', 'NGƯỜI LẬP'],
+    dacBiet: ['THỦ TRƯỞNG ĐƠN VỊ', 'PHÒNG TCCB', 'PHÒNG KHTH', 'TRƯỞNG KHOA/PHÒNG', 'NGƯỜI LẬP'],
+    ngoaiBV: ['THỦ TRƯỞNG ĐƠN VỊ', 'PHÒNG TCCB', 'PHÒNG KHTH', 'TRƯỞNG KHOA/PHÒNG', 'NGƯỜI LẬP'],
+  };
+  const HOLIDAY_SEEDS = {
+    2026: [
+      { date: '2026-01-01', name: 'Tết Dương lịch' },
+      { date: '2026-02-16', name: 'Tết Nguyên đán' },
+      { date: '2026-02-17', name: 'Tết Nguyên đán' },
+      { date: '2026-02-18', name: 'Tết Nguyên đán' },
+      { date: '2026-02-19', name: 'Tết Nguyên đán' },
+      { date: '2026-02-20', name: 'Tết Nguyên đán' },
+      { date: '2026-04-26', name: 'Giỗ Tổ Hùng Vương' },
+      { date: '2026-04-27', name: 'Nghỉ bù Giỗ Tổ Hùng Vương' },
+      { date: '2026-04-30', name: 'Giải phóng miền Nam' },
+      { date: '2026-05-01', name: 'Quốc tế Lao động' },
+      { date: '2026-09-01', name: 'Nghỉ Quốc khánh' },
+      { date: '2026-09-02', name: 'Quốc khánh' },
+    ],
+  };
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+  const clone = (v) => JSON.parse(JSON.stringify(v));
+  const round15 = (x) => Number(x.toPrecision(15));
+  const blank = (n) => (n ? n : null);
+  const byDate = (a, b) => a.date.localeCompare(b.date);
+
+  function daysInMonth(year, month) {
+    return new Date(Date.UTC(year, month, 0)).getUTCDate();
+  }
+
+  function isoDate(year, month, day) {
+    return `${year}-${pad2(month)}-${pad2(day)}`;
+  }
+
+  function monthKey(year, month) {
+    return `${year}_${pad2(month)}`;
+  }
+
+  function parseMonthKey(key) {
+    const m = /^(\d{4})_(0[1-9]|1[0-2])$/.exec(key);
+    if (!m) throw new Error(`Khóa tháng không hợp lệ: ${key}`);
+    return { year: Number(m[1]), month: Number(m[2]) };
+  }
+
+  function shiftMonth(year, month, delta) {
+    const index = year * 12 + (month - 1) + delta;
+    return { year: Math.floor(index / 12), month: (index % 12) + 1 };
+  }
+
+  function monthDays(year, month, holidayIsoSet) {
+    return Array.from({ length: daysInMonth(year, month) }, (_, i) => {
+      const day = i + 1;
+      const iso = isoDate(year, month, day);
+      const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+      const type = holidayIsoSet.has(iso) ? 'L' : weekday === 0 || weekday === 6 ? 'N' : 'T';
+      return { day, iso, weekday, type };
+    });
+  }
+
+  function defaultSignDate(year, month) {
+    const next = shiftMonth(year, month, 1);
+    return isoDate(next.year, next.month, 1);
+  }
+
+  function signDateTexts(iso) {
+    const [y, m, d] = iso.split('-').map(Number);
+    return {
+      timesheet: `Ngày  ${pad2(d)}  tháng  ${pad2(m)}  năm ${y}`,
+      pay: `Ngày     ${pad2(d)}   tháng   ${pad2(m)}  năm ${y}`,
+    };
+  }
+
+  const INVISIBLE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\p{Cf}\p{Cs}￾￿]/gu;
+
+  function normalizeName(text) {
+    return String(text ?? '').normalize('NFC').replace(INVISIBLE, '').replace(/\s+/g, ' ').trim();
+  }
+
+  function parseMoney(text) {
+    const s = String(text ?? '').trim();
+    if (/^\d+$/.test(s)) return Number(s);
+    return /^\d{1,3}([.,])\d{3}(?:\1\d{3})*$/.test(s) ? Number(s.replace(/[.,]/g, '')) : NaN;
+  }
+
+  function parseCoef(text) {
+    const s = String(text ?? '').trim();
+    return /^\d+(?:[.,]\d+)?$/.test(s) ? Number(s.replace(',', '.')) : NaN;
+  }
+
+  const DIGITS = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+
+  function readTriple(n, full) {
+    const hundreds = Math.floor(n / 100);
+    const tens = Math.floor(n / 10) % 10;
+    const units = n % 10;
+    const parts = [];
+    if (hundreds > 0 || full) parts.push(`${DIGITS[hundreds]} trăm`);
+    if (tens === 0) {
+      if (units > 0 && (hundreds > 0 || full)) parts.push('lẻ');
+    } else if (tens === 1) {
+      parts.push('mười');
+    } else {
+      parts.push(`${DIGITS[tens]} mươi`);
+    }
+    if (units > 0) {
+      if (tens >= 2 && units === 1) parts.push('mốt');
+      else if (tens >= 1 && units === 5) parts.push('lăm');
+      else parts.push(DIGITS[units]);
+    }
+    return parts.join(' ');
+  }
+
+  function readUnderBillion(n, fullLead) {
+    const groups = [Math.floor(n / 1e6), Math.floor(n / 1e3) % 1000, n % 1000];
+    const names = ['triệu', 'nghìn', ''];
+    const lead = groups.findIndex((g) => g > 0);
+    if (lead === -1) return '';
+    const parts = [];
+    groups.forEach((g, i) => {
+      if (g === 0) return;
+      const text = readTriple(g, fullLead || i > lead);
+      parts.push(names[i] ? `${text} ${names[i]}` : text);
+    });
+    return parts.join(' ');
+  }
+
+  function soTienBangChu(amount) {
+    if (!Number.isSafeInteger(amount) || amount < 0) {
+      throw new Error(`Số tiền phải là số nguyên không âm: ${amount}`);
+    }
+    if (amount === 0) return 'Không đồng';
+    const billions = Math.floor(amount / 1e9);
+    const rest = amount % 1e9;
+    const parts = [];
+    if (billions > 0) parts.push(`${readUnderBillion(billions, false)} tỷ`);
+    if (rest > 0) parts.push(readUnderBillion(rest, billions > 0));
+    const text = `${parts.join(' ')} đồng`;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  function countTypes(person, days) {
+    const out = { T: 0, N: 0, L: 0, total: 0 };
+    for (const d of person.days) {
+      const type = days[d - 1]?.type;
+      if (type) {
+        out[type]++;
+        out.total++;
+      }
+    }
+    return out;
+  }
+
+  function payGroup(people, days, rates, showAll) {
+    const unit = {
+      T: rates.donGia,
+      N: round15(rates.donGia * rates.heSoNghi),
+      L: round15(rates.donGia * rates.heSoLe),
+      meal: rates.tienAn,
+    };
+    const money = (n) => (n ? round15(n) : null);
+    const counted = [];
+    for (const p of people) {
+      const name = normalizeName(p.name);
+      if (name === '') continue;
+      const c = countTypes(p, days);
+      if (showAll || c.total > 0) counted.push({ p, name, c });
+    }
+    const figures = (c) => {
+      const amtT = round15(c.T * unit.T);
+      const amtN = round15(c.N * unit.N);
+      const amtL = round15(c.L * unit.L);
+      const amount = round15(amtT + amtN + amtL);
+      const meal = round15(c.total * unit.meal);
+      return {
+        nT: blank(c.T), amtT: money(amtT), nN: blank(c.N), amtN: money(amtN), nL: blank(c.L), amtL: money(amtL),
+        nTotal: blank(c.total), amount: money(amount), meal: money(meal), net: money(round15(amount + meal)),
+      };
+    };
+    const rows = counted.map(({ p, name, c }, i) => ({ stt: i + 1, id: p.id, name, title: normalizeName(p.title), ...figures(c) }));
+    const sum = (key) => counted.reduce((s, x) => s + x.c[key], 0);
+    const total = figures({ T: sum('T'), N: sum('N'), L: sum('L'), total: sum('total') });
+    const net = total.net ?? 0;
+    return { unit, rows, total, words: net > 0 ? soTienBangChu(Math.round(net)) : '' };
+  }
+
+  function payAll(monthData, days) {
+    return {
+      dacBiet: payGroup(monthData.groups.dacBiet, days, monthData.rates.dacBiet, false),
+      thuong: payGroup(monthData.groups.thuong, days, monthData.rates.thuong, true),
+      ngoaiBV: payGroup(monthData.groups.ngoaiBV, days, monthData.rates.ngoaiBV, false),
+    };
+  }
+
+  function timesheetRows(monthData, days) {
+    const rows = [];
+    for (const [group, showAll] of [['dacBiet', false], ['thuong', true], ['ngoaiBV', false]]) {
+      for (const p of monthData.groups[group]) {
+        const name = normalizeName(p.name);
+        if (name === '') continue;
+        const c = countTypes(p, days);
+        if (!showAll && c.total === 0) continue;
+        const duty = new Set(p.days);
+        rows.push({
+          stt: rows.length + 1, id: p.id, name, title: normalizeName(p.title),
+          marks: days.map((d) => duty.has(d.day)),
+          nTotal: blank(c.total), nT: blank(c.T), nN: blank(c.N), nL: blank(c.L),
+        });
+      }
+    }
+    const dayTotals = days.map((_, i) => rows.filter((row) => row.marks[i]).length);
+    const sums = { nTotal: 0, nT: 0, nN: 0, nL: 0 };
+    for (const row of rows) for (const key of Object.keys(sums)) sums[key] += row[key] ?? 0;
+    return { rows, dayTotals, sums };
+  }
+
+  const emptyRates = () => ({ donGia: 0, tienAn: 0, heSoNghi: 0, heSoLe: 0 });
+  const emptyRateSet = () => Object.fromEntries(GROUP_IDS.map((g) => [g, emptyRates()]));
+  const emptyData = () => ({
+    schemaVersion: 1,
+    settings: { hospital: '', department: '', rateHistory: [], holidays: [], seededYears: [] },
+    months: {},
+  });
+
+  function checkMonth(key, m, { year, month }, fail) {
+    if (!isObj(m)) fail(`tháng ${key} phải là đối tượng`);
+    if (m.signDate !== null && !/^\d{4}-\d{2}-\d{2}$/.test(m.signDate ?? '')) fail(`tháng ${key}: signDate phải là null hoặc ngày dạng năm-tháng-ngày`);
+    if (!isObj(m.rates)) fail(`tháng ${key}: thiếu rates`);
+    if (!isObj(m.groups)) fail(`tháng ${key}: thiếu groups`);
+    const dayCount = daysInMonth(year, month);
+    const ids = new Set();
+    for (const g of GROUP_IDS) {
+      const r = m.rates[g];
+      if (!isObj(r)) fail(`tháng ${key}: thiếu rates.${g}`);
+      for (const f of RATE_FIELDS) {
+        if (typeof r[f] !== 'number' || !Number.isFinite(r[f])) fail(`tháng ${key}: rates.${g}.${f} phải là số`);
+      }
+      const people = m.groups[g];
+      if (!Array.isArray(people)) fail(`tháng ${key}: groups.${g} phải là mảng`);
+      people.forEach((p, i) => {
+        const where = `tháng ${key}: groups.${g}[${i}]`;
+        if (!isObj(p)) fail(`${where} phải là đối tượng`);
+        if (typeof p.id !== 'string' || p.id === '') fail(`${where}.id phải là chuỗi không rỗng`);
+        if (ids.has(p.id)) fail(`${where}.id "${p.id}" bị trùng`);
+        ids.add(p.id);
+        if (typeof p.name !== 'string' || typeof p.title !== 'string') fail(`${where}: name và title phải là chuỗi`);
+        if (!Array.isArray(p.days) || p.days.some((d) => !Number.isInteger(d) || d < 1 || d > dayCount)) {
+          fail(`${where}.days có ngày ngoài khoảng 1 đến ${dayCount}`);
+        }
+        if (new Set(p.days).size !== p.days.length) fail(`${where}.days bị trùng ngày`);
+      });
+    }
+  }
+
+  function checkShape(data) {
+    const fail = (msg) => {
+      throw new Error(`File dữ liệu không hợp lệ: ${msg}`);
+    };
+    if (!isObj(data)) fail('gốc phải là đối tượng');
+    if (data.schemaVersion !== 1) fail(`schemaVersion ${JSON.stringify(data.schemaVersion)} chưa được hỗ trợ (cần 1)`);
+    const s = data.settings;
+    if (!isObj(s)) fail('thiếu settings');
+    if (typeof s.department !== 'string') fail('settings.department phải là chuỗi');
+    if (s.hospital !== undefined && typeof s.hospital !== 'string') fail('settings.hospital phải là chuỗi');
+    if (!Array.isArray(s.rateHistory)) fail('settings.rateHistory phải là mảng');
+    if (!Array.isArray(s.holidays)) fail('settings.holidays phải là mảng');
+    if (s.seededYears !== undefined && (!Array.isArray(s.seededYears) || s.seededYears.some((y) => !Number.isInteger(y)))) {
+      fail('settings.seededYears phải là mảng số năm');
+    }
+    if (s.signLabels !== undefined) {
+      if (!isObj(s.signLabels)) fail('settings.signLabels phải là đối tượng');
+      for (const [form, labels] of Object.entries(s.signLabels)) {
+        if (!SIGN_FORMS.includes(form) || !Array.isArray(labels) || labels.some((x) => typeof x !== 'string')) {
+          fail(`settings.signLabels.${form} sai cấu trúc`);
+        }
+      }
+    }
+    s.holidays.forEach((h, i) => {
+      const okDate = isObj(h) && /^\d{4}-\d{2}-\d{2}$/.test(h.date ?? '') && h.date === isoDateOk(h.date);
+      if (!okDate || typeof h.name !== 'string' || typeof h.confirmed !== 'boolean') fail(`settings.holidays[${i}] sai cấu trúc`);
+    });
+    if (!isObj(data.months)) fail('thiếu months');
+    for (const [key, m] of Object.entries(data.months)) {
+      let ym = null;
+      try {
+        ym = parseMonthKey(key);
+      } catch {
+        fail(`khóa tháng "${key}" sai dạng năm_tháng`);
+      }
+      checkMonth(key, m, ym, fail);
+    }
+    return data;
+  }
+
+  function isoDateOk(text) {
+    const [y, m, d] = text.split('-').map(Number);
+    return m >= 1 && m <= 12 && d >= 1 && d <= daysInMonth(y, m) ? text : null;
+  }
+
+  function parseDataText(text) {
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error('File dữ liệu không phải JSON hợp lệ');
+    }
+    return checkShape(data);
+  }
+
+  function newPersonId() {
+    const c = globalThis.crypto;
+    const raw = c && c.randomUUID ? c.randomUUID().replace(/-/g, '') : Math.random().toString(36).slice(2) + Date.now().toString(36);
+    return `p${raw.slice(0, 12)}`;
+  }
+
+  // Tháng mẫu của dữ liệu mặc định là tháng mới nhất có đơn giá, không cần có người. Tháng trống ở cuối file hoặc chưa có đơn giá bị bỏ qua.
+  function monthTemplate(defaults) {
+    checkShape(defaults);
+    const key = Object.keys(defaults.months).sort().reverse().find((k) => hasPrices(defaults.months[k]));
+    return key ? { key, monthData: defaults.months[key] } : null;
+  }
+
+  const hasRoster = (m) => GROUP_IDS.some((g) => m.groups[g].length > 0);
+  const hasPrices = (m) => GROUP_IDS.some((g) => RATE_FIELDS.some((f) => m.rates[g][f] > 0));
+
+  // Mặc định chỉ có đơn giá, tên và chức danh luôn để trống. Tháng chưa có dữ liệu bắt đầu không người nào và lấy đơn giá từ tháng
+  // gần nhất đã có đơn giá mà không sớm hơn tháng mẫu (giữ chỉnh sửa của người dùng), không có thì lấy từ mẫu mặc định. Không có mẫu
+  // thì lấy từ tháng gần nhất đứng trước. Tháng đã lưu nhưng chưa có đơn giá (trống hoặc dở dang) giữ nguyên người, ngày và ngày ký
+  // đã lưu, chỉ điền đơn giá; tháng như vậy bị bỏ qua khi tìm nguồn nên không làm các tháng sau mất đơn giá. Bản dựng tạm chỉ thay bản
+  // đã lưu khi người dùng sửa. Tháng đã lưu có đơn giá dùng nguyên bản đã lưu.
+  function getMonth(data, year, month, template = null) {
+    const key = monthKey(year, month);
+    const stored = data.months[key];
+    if (stored && hasPrices(stored)) return { key, monthData: stored, exists: true };
+    const floor = template ? template.key : '';
+    const sources = Object.keys(data.months).filter((k) => k < key && k >= floor).sort().reverse().map((k) => data.months[k]);
+    if (template) sources.push(template.monthData);
+    const pricesFrom = sources.find(hasPrices);
+    if (stored && !pricesFrom) return { key, monthData: stored, exists: true };
+    const base = stored ? clone(stored) : { signDate: null, rates: emptyRateSet(), groups: { dacBiet: [], thuong: [], ngoaiBV: [] } };
+    if (pricesFrom) base.rates = clone(pricesFrom.rates);
+    return { key, monthData: base, exists: false };
+  }
+
+  function addPerson(monthData, group, { name = '', title = '' } = {}) {
+    const person = { id: newPersonId(), name: normalizeName(name), title: normalizeName(title), days: [] };
+    monthData.groups[group].push(person);
+    return person;
+  }
+
+  function removePerson(monthData, group, id) {
+    const list = monthData.groups[group];
+    const i = list.findIndex((p) => p.id === id);
+    if (i >= 0) list.splice(i, 1);
+  }
+
+  function movePerson(monthData, group, id, delta) {
+    const list = monthData.groups[group];
+    const i = list.findIndex((p) => p.id === id);
+    const j = i + delta;
+    if (i < 0 || j < 0 || j >= list.length) return false;
+    [list[i], list[j]] = [list[j], list[i]];
+    return true;
+  }
+
+  function toggleDay(person, day) {
+    const i = person.days.indexOf(day);
+    if (i >= 0) {
+      person.days.splice(i, 1);
+      return false;
+    }
+    person.days.push(day);
+    person.days.sort((a, b) => a - b);
+    return true;
+  }
+
+  const LETTER_KEYS = new Map([['t', 'T'], ['n', 'N'], ['l', 'L']]);
+
+  function cellKeyAction(key) {
+    if (key === 'Delete' || key === 'Backspace') return { act: 'clear' };
+    if (key === ' ') return { act: 'toggle' };
+    const letter = LETTER_KEYS.get(String(key).toLowerCase());
+    return letter ? { act: 'set', letter } : null;
+  }
+
+  const DAY_TYPE_REASON = { T: 'là ngày thường', N: 'là thứ 7 hoặc chủ nhật', L: 'là ngày lễ' };
+
+  function letterNote(letter, type, day) {
+    if (!letter || letter === type) return null;
+    const note = `Ngày ${day} ${DAY_TYPE_REASON[type]}, trang tính ${type}, không tính ${letter}.`;
+    return letter === 'L' ? `${note} Muốn tính lễ, thêm ngày này vào mục Ngày lễ.` : note;
+  }
+
+  const GRID_STEPS = new Map([['ArrowUp', [-1, 0]], ['ArrowDown', [1, 0]], ['ArrowLeft', [0, -1]], ['ArrowRight', [0, 1]]]);
+
+  function gridStep(pos, key, shift, size) {
+    const clamp = (n, count) => Math.min(Math.max(n, 0), count - 1);
+    let next;
+    if (key === 'Home') next = { row: pos.row, col: 0 };
+    else if (key === 'End') next = { row: pos.row, col: size.cols - 1 };
+    else {
+      const step = key === 'Enter' ? [shift ? -1 : 1, 0] : GRID_STEPS.get(key);
+      if (!step) return null;
+      next = { row: pos.row + step[0], col: pos.col + step[1] };
+    }
+    return { row: clamp(next.row, size.rows), col: clamp(next.col, size.cols) };
+  }
+
+  const holidayIsoSet = (settings) => new Set(settings.holidays.map((h) => h.date));
+  const holidaysOfYear = (settings, year) => settings.holidays.filter((h) => h.date.startsWith(`${year}-`));
+
+  function addHoliday(settings, { date, name }) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date ?? '') || isoDateOk(date) === null) throw new Error(`Ngày lễ không hợp lệ: ${date}`);
+    if (settings.holidays.some((h) => h.date === date)) throw new Error(`Ngày ${date} đã có trong danh sách ngày lễ`);
+    settings.holidays.push({ date, name: normalizeName(name), confirmed: true });
+    settings.holidays.sort(byDate);
+  }
+
+  function removeHoliday(settings, date) {
+    const i = settings.holidays.findIndex((h) => h.date === date);
+    if (i >= 0) settings.holidays.splice(i, 1);
+  }
+
+  function seedHolidays(settings, year) {
+    const seeds = HOLIDAY_SEEDS[year];
+    if (!seeds) return 0;
+    if (settings.seededYears === undefined) {
+      settings.seededYears = [];
+      if (holidaysOfYear(settings, year).length > 0) {
+        settings.seededYears.push(year);
+        return 0;
+      }
+    }
+    if (settings.seededYears.includes(year)) return 0;
+    let added = 0;
+    for (const h of seeds) {
+      if (settings.holidays.some((x) => x.date === h.date)) continue;
+      settings.holidays.push({ date: h.date, name: h.name, confirmed: false });
+      added++;
+    }
+    settings.holidays.sort(byDate);
+    settings.seededYears.push(year);
+    return added;
+  }
+
+  // Mặc định chỉ cho đơn giá, tiền ăn và hệ số. Tên, chức danh, ngày trực và ngày ký của file mặc định không bao giờ được nạp.
+  function pricesOnly(month) {
+    return { signDate: null, rates: clone(month.rates), groups: { dacBiet: [], thuong: [], ngoaiBV: [] } };
+  }
+
+  function mergeDefaults(data, defaults) {
+    checkShape(defaults);
+    const added = Object.keys(defaults.months).filter((key) => !data.months[key]).sort();
+    if (added.length === 0) return added;
+    for (const key of added) data.months[key] = pricesOnly(defaults.months[key]);
+    const inAddedMonth = (date) => added.some((key) => date.startsWith(`${key.replace('_', '-')}-`));
+    for (const h of defaults.settings.holidays) {
+      if (inAddedMonth(h.date) && !data.settings.holidays.some((x) => x.date === h.date)) data.settings.holidays.push(clone(h));
+    }
+    data.settings.holidays.sort(byDate);
+    for (const field of ['hospital', 'department']) {
+      const value = normalizeName(defaults.settings[field]);
+      if (value !== '' && normalizeName(data.settings[field]) === '') data.settings[field] = value;
+    }
+    return added;
+  }
+
+  // Dọn một lần cho dữ liệu đã nạp từ mặc định kiểu cũ (có tên và chức danh): tháng đã lưu mà chưa có ngày trực nào thì bỏ hết người,
+  // giữ đơn giá và ngày ký. Tháng đã có ít nhất một ngày trực giữ nguyên cả những người không có ngày, vì đó là số người dùng đã nhập.
+  function clearIdleRosters(data) {
+    const cleared = [];
+    for (const key of Object.keys(data.months).sort()) {
+      const m = data.months[key];
+      if (!hasRoster(m) || GROUP_IDS.some((g) => m.groups[g].some((p) => p.days.length > 0))) continue;
+      for (const g of GROUP_IDS) m.groups[g] = [];
+      cleared.push(key);
+    }
+    return cleared;
+  }
+
+  const signLabels = (settings) => ({ ...SIGN_LABELS, ...(settings.signLabels ?? {}) });
+
+  function validateMonth({ year, month, monthData, settings }) {
+    const errors = [];
+    const warnings = [];
+    if (holidaysOfYear(settings, year).length === 0) {
+      warnings.push({ code: 'khong_co_ngay_le', message: `Năm ${year} chưa có ngày lễ nào, mọi ngày thường sẽ tính là T.` });
+    }
+    for (const g of GROUP_IDS) {
+      const people = monthData.groups[g];
+      if (people.some((p) => normalizeName(p.name) === '' && p.days.length > 0)) {
+        errors.push({ code: 'thieu_ten', group: g, message: `${GROUP_NAMES[g]}: có ngày trực nhưng dòng không có tên.` });
+      }
+      const r = monthData.rates[g];
+      const hasDuty = people.some((p) => normalizeName(p.name) !== '' && p.days.length > 0);
+      if (!hasDuty) continue;
+      if (!(r.donGia > 0) || !(r.heSoNghi > 0) || !(r.heSoLe > 0)) {
+        errors.push({ code: 'chua_nhap_so', group: g, message: `${GROUP_NAMES[g]}: có người trực nhưng đơn giá, hệ số nghỉ hoặc hệ số lễ chưa nhập.` });
+      } else if (!(r.tienAn > 0)) {
+        warnings.push({ code: 'tien_an_bang_0', group: g, message: `${GROUP_NAMES[g]}: tiền ăn đang bằng 0.` });
+      }
+    }
+    return { errors, warnings };
+  }
+
+  const TEXT = {
+    motto1: 'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM',
+    motto2: 'Độc lập - Tự do - Hạnh phúc',
+    khoa: 'KHOA / PHÒNG:',
+    titleCc: 'BẢNG CHẤM CÔNG TRỰC',
+    titlePay: 'BẢNG THANH TOÁN TIỀN TRỰC',
+    month: 'Tháng',
+    year: 'năm',
+    sttCc: 'Số TT',
+    stt: 'STT',
+    name: 'Họ và tên',
+    code: 'Mã',
+    title: 'Chức danh',
+    dayRange: 'Ngày trong tháng',
+    total: 'Tổng cộng',
+    dayGroup: 'Ngày',
+    regular: 'Thường',
+    off: 'Nghỉ',
+    holiday: 'Lễ',
+    note: 'Ghi chú',
+    workT: 'Làm việc ngày Thường',
+    workN: 'Làm việc Ngày T7,CN',
+    workL: 'Làm việc Ngày Lễ, tết',
+    totalDays: 'Tổng số ngày',
+    amount: 'Thành tiền',
+    net: 'Thực nhận',
+    receipt: 'Ký nhận',
+    meal: 'Kinh phí hỗ trợ tiền ăn cho người trực 24/24',
+    totalPay: 'Tổng cộng:',
+    totalCc: 'TỔNG CỘNG:',
+    dayRegular: 'Ngày thường',
+    dayOff: 'Ngày nghỉ',
+    dayHoliday: 'Ngày lễ',
+    words: 'Số tiền bằng chữ:',
+  };
+  const SHEET_NAMES = { chamCong: 'bảng chấm công in', thuong: 'Trực thường', dacBiet: 'Trực ĐB', ngoaiBV: 'Trực ngoài BV' };
+  const TONG_SHEET = 'tổng';
+  const CC_COPY_SHEET = 'bảng chấm công in (122020)';
+  const MIN_ROWS = { chamCong: 19, thuong: 14, dacBiet: 13, ngoaiBV: 1 };
+  // Số dòng người tối thiểu của từng bảng trong file xlsx xuất, theo file Excel gốc (tháng 11/2026), và số dòng của sheet tổng.
+  const XLSX_MIN_ROWS = { chamCong: 19, thuong: 11, dacBiet: 13, ngoaiBV: 3 };
+  const TONG_SLOTS = { dacBiet: 39, thuong: 24, ngoaiBV: 5 };
+  const BOX = 'lrtb';
+  const TAB_GREEN = '00B050';
+  const ORANGE = 'E46C0A';
+  const spans = (list) => list.flatMap(([count, width]) => Array(count).fill(width));
+  const CC_WIDTHS = spans([[1, 4.289], [1, 4.289], [1, 20.711], [1, 6.289], [1, 2.859], [3, 2.711], [1, 2.43], [1, 2.711], [1, 3], [1, 2.711], [1, 2.43],
+    [6, 2.711], [1, 2.43], [4, 2.711], [1, 2.43], [10, 2.711], [1, 4.43], [1, 5], [1, 4.859], [1, 3.141], [1, 8.43]]);
+  const TONG_WIDTHS = spans([[2, 4.289], [1, 25.859], [1, 6.289], [24, 3.711], [6, 3.43], [1, 3.141], [1, 5], [1, 5.43], [1, 6.43], [1, 5.289]]);
+  const PAY_WIDTHS_A = [3.711, 21.711, 6.43, 6.289, 11.141, 6.141, 11.289, 6.141, 11.141, 5.43, 11.43, 11.43, 11.289, 6.141];
+  const PAY_WIDTHS_B = [3.711, 24.141, 6.43, 6.289, 11.141, 6.141, 10, 6.141, 11, 5.43, 11.43, 11.43, 11.289, 12.711];
+  const MARGINS_CC = { left: 0, right: 0, top: 0.748, bottom: 0.748, header: 0.315, footer: 0.315 };
+  const MARGINS_A = { left: 0.7, right: 0.7, top: 0.75, bottom: 0.75, header: 0.3, footer: 0.3 };
+  const MARGINS_B = { left: 0.2, right: 0.25, top: 0.25, bottom: 0.25, header: 0.25, footer: 0.25 };
+  const MARGINS_TONG = { left: 0.25, right: 0.25, top: 0.75, bottom: 0.75, header: 0.3, footer: 0.3 };
+  const SLOTS_CC = [[3, 4], [6, 6], [13, 19], [23, 28], [34, 37]];
+  const SLOTS_PAY = [[2, 2], [3, 4], [5, 7], [8, 10], [11, 14]];
+
+  // Ba bảng thanh toán khác nhau đôi chút trong file gốc: chiều cao hàng, kiểu ô người, bảng ngoài BV lệch một hàng.
+  const PAY_KINDS = {
+    thuong: {
+      top: 0, gap: 0, widths: PAY_WIDTHS_A, margins: MARGINS_A, rightLabels: true,
+      heights: { 2: 15, 3: 9.75, 4: 23.2, 6: 8.25, 7: 12.75, 8: 12.75, 9: 44 }, data: 18, total: 24.6, words: 21.6, sign: 16.5,
+      cell: { stt: { sz: 11, h: 'center', v: 'center', wrap: true }, name: { sz: 11, h: 'left', v: 'center', wrap: true }, title: { sz: 8, h: 'center', v: 'center', wrap: true }, days: {}, signCol: { wrap: true } },
+    },
+    dacBiet: {
+      top: 0, gap: 0, widths: PAY_WIDTHS_B, margins: MARGINS_B, rightLabels: false,
+      heights: { 2: 15, 4: 23.2, 5: 24.75, 6: 10.5, 7: 12.75, 8: 12.75, 9: 44 }, data: 18, total: 33.75, words: 19.2, sign: 16.5,
+      cell: { stt: { sz: 11 }, name: { sz: 12, h: 'left', v: 'center' }, title: { sz: 8, h: 'center', wrap: true }, days: { b: true }, signCol: {} },
+    },
+    ngoaiBV: {
+      top: 1, gap: 1, widths: PAY_WIDTHS_B, margins: MARGINS_B, rightLabels: true, centerLeAmount: true,
+      heights: { 2: 15, 4: 23.2, 5: 24.75, 6: 10.5, 7: 12.75, 8: 12.75, 9: 44 }, dataFirst: 25.5, total: 33.75, words: 19.2, sign: 16.5,
+      cell: { stt: { sz: 11, h: 'center', v: 'center' }, name: { sz: 11, h: 'left', v: 'center' }, title: { sz: 11, h: 'center', v: 'center' }, days: {}, signCol: { wrap: true } },
+    },
+  };
+
+  const excelSerial = (year, month, day) => Math.round((Date.UTC(year, month - 1, day) - Date.UTC(1899, 11, 30)) / 86400000);
+
+  function colName(n) {
+    let s = '';
+    for (let x = n; x > 0; x = Math.floor((x - 1) / 26)) s = String.fromCharCode(65 + ((x - 1) % 26)) + s;
+    return s;
+  }
+
+  const cellRef = (r, c) => `${colName(c)}${r}`;
+
+  function newSheet(name, widths, defaultHeight, hidden = [], options = {}) {
+    return { name, widths, hidden, defaultHeight, heights: {}, cells: new Map(), merges: [], ...options };
+  }
+
+  function put(sh, r, c, v, s = {}) {
+    sh.cells.set(cellRef(r, c), { r, c, v: v === '' || v === null ? undefined : v, s });
+  }
+
+  function merge(sh, r1, c1, r2, c2, v, s = {}) {
+    if (r1 === r2 && c1 === c2) {
+      put(sh, r1, c1, v, s);
+      return;
+    }
+    sh.merges.push(`${cellRef(r1, c1)}:${cellRef(r2, c2)}`);
+    for (let r = r1; r <= r2; r++) for (let c = c1; c <= c2; c++) put(sh, r, c, r === r1 && c === c1 ? v : undefined, s);
+  }
+
+  function slotsFor(count, original, first, last) {
+    if (count === original.length) return original;
+    const width = Math.max(1, Math.floor((last - first + 1) / count));
+    return Array.from({ length: count }, (_, i) => [first + i * width, i === count - 1 ? last : first + (i + 1) * width - 1]);
+  }
+
+  function putLabels(sh, row, labels, original, first, last) {
+    const slots = slotsFor(labels.length, original, first, last);
+    labels.forEach((label, i) => {
+      const single = slots[i][0] === slots[i][1];
+      const style = single ? { sz: 10, b: true, v: 'center' } : { sz: 10, b: true, h: 'center', v: 'center', wrap: i < labels.length - 1 };
+      merge(sh, row, slots[i][0], row, slots[i][1], label, style);
+    });
+    sh.heights[row] = 25.5;
+  }
+
+  // Màu của quy tắc định dạng có điều kiện trong file gốc: T7 và CN xám, ngày lễ cam nhạt chữ đỏ.
+  const dayFill = (d) => (!d ? {} : d.type === 'L' ? { fill: 'FCD5B5', color: 'FF0000' } : d.type === 'N' ? { fill: 'BFBFBF' } : {});
+
+  function timesheetSheet(ctx, name) {
+    const { year, month, days, t } = ctx;
+    const sh = newSheet(name, CC_WIDTHS, 16.8, [2], { tab: TAB_GREEN, margins: MARGINS_CC });
+    Object.assign(sh.heights, { 1: 23.2, 2: 17.6, 3: 17.6, 4: 15, 5: 15, 6: 33.05 });
+    merge(sh, 1, 3, 1, 8, ctx.hospital, { sz: 12, h: 'center' });
+    put(sh, 1, 18, TEXT.titleCc, { sz: 16, b: true, color: ORANGE });
+    put(sh, 2, 3, TEXT.khoa, { sz: 12, b: true, h: 'right' });
+    put(sh, 2, 4, ctx.dept, { sz: 12, b: true });
+    put(sh, 2, 20, TEXT.month, { sz: 12, b: true });
+    merge(sh, 2, 23, 2, 24, month, { sz: 12, b: true, h: 'center' });
+    put(sh, 2, 25, TEXT.year, { sz: 12, b: true });
+    merge(sh, 2, 28, 2, 30, year, { sz: 12, b: true, h: 'center' });
+    const head = { sz: 10, b: true, h: 'center', v: 'center', wrap: true, bd: BOX };
+    const small = { ...head, sz: 7 };
+    const label = { sz: 11, b: true, h: 'center', v: 'center', bd: BOX };
+    merge(sh, 4, 1, 6, 1, TEXT.sttCc, head);
+    merge(sh, 4, 3, 6, 3, TEXT.name, { ...head, sz: 12 });
+    merge(sh, 4, 4, 6, 4, TEXT.code, head);
+    merge(sh, 4, 5, 4, 35, TEXT.dayRange, head);
+    merge(sh, 4, 36, 7, 36, TEXT.total, small);
+    merge(sh, 4, 37, 5, 39, TEXT.dayGroup, label);
+    merge(sh, 4, 40, 6, 40, TEXT.note, label);
+    for (let i = 0; i < 31; i++) {
+      const d = days[i];
+      const fill = dayFill(d);
+      put(sh, 5, 5 + i, d ? excelSerial(year, month, d.day) : undefined, { sz: 8, b: true, h: 'center', bd: BOX, nf: 'dd', ...fill });
+      put(sh, 6, 5 + i, d ? WEEKDAY_FULL[d.weekday] : undefined, { sz: 7, b: true, h: 'center', rot: 90, bd: BOX, ...fill });
+      put(sh, 7, 5 + i, d ? d.day : undefined, { sz: 7, h: 'center', bd: BOX, ...fill });
+    }
+    [TEXT.regular, TEXT.off, TEXT.holiday].forEach((text, k) => put(sh, 6, 37 + k, text, small));
+    [[1, 'A'], [3, 'B'], [4, 'C']].forEach(([c, text]) => put(sh, 7, c, text, { sz: 10, h: 'center', bd: BOX }));
+    ['A', 'B', 'C'].forEach((text, k) => put(sh, 7, 37 + k, text, { sz: 7, h: 'center', bd: BOX }));
+    put(sh, 7, 40, undefined, { sz: 11, bd: BOX });
+
+    const first = 8;
+    const count = Math.max(XLSX_MIN_ROWS.chamCong, t.rows.length);
+    for (let k = 0; k < count; k++) {
+      const r = first + k;
+      const row = t.rows[k];
+      put(sh, r, 1, row?.stt, { sz: 11, bd: BOX });
+      put(sh, r, 3, row?.name, { sz: 10, bd: BOX });
+      put(sh, r, 4, row?.title, { sz: 6, bd: BOX });
+      for (let i = 0; i < 31; i++) put(sh, r, 5 + i, row && days[i] && row.marks[i] ? 'T' : undefined, { sz: 11, bd: BOX, ...dayFill(days[i]) });
+      put(sh, r, 36, row?.nTotal, { sz: 11, b: true, bd: BOX });
+      put(sh, r, 37, row?.nT, { sz: 11, bd: BOX });
+      put(sh, r, 38, row?.nN, { sz: 11, bd: BOX });
+      put(sh, r, 39, row?.nL, { sz: 11, bd: BOX });
+      put(sh, r, 40, undefined, { sz: 11, bd: BOX });
+    }
+    const tr = first + count;
+    const tot = { sz: 11, b: true, h: 'center', bd: BOX };
+    put(sh, tr, 1, undefined, { sz: 11, bd: BOX });
+    put(sh, tr, 3, TEXT.totalCc, tot);
+    put(sh, tr, 4, undefined, tot);
+    for (let i = 0; i < 31; i++) put(sh, tr, 5 + i, days[i] ? t.dayTotals[i] : undefined, tot);
+    [t.sums.nTotal, t.sums.nT, t.sums.nN, t.sums.nL].forEach((v, k) => put(sh, tr, 36 + k, v, tot));
+    put(sh, tr, 40, undefined, { sz: 11, bd: BOX });
+    sh.heights[tr + 1] = 9.75;
+    sh.heights[tr + 2] = 19.2;
+    merge(sh, tr + 2, 31, tr + 2, 39, ctx.sign.timesheet, { sz: 13, i: true, h: 'center', v: 'center', wrap: true });
+    putLabels(sh, tr + 3, ctx.labels.chamCong, SLOTS_CC, 3, 37);
+    return sh;
+  }
+
+  function paySheet(group, ctx) {
+    const k = PAY_KINDS[group];
+    const g = ctx.pay[group];
+    const R = (r) => r + k.top;
+    const sh = newSheet(ctx.names[group], k.widths, 17.6, [], { tab: group === 'thuong' ? undefined : TAB_GREEN, margins: k.margins });
+    for (const [r, ht] of Object.entries(k.heights)) sh.heights[R(Number(r))] = ht;
+    const motto = { sz: 11, b: true, h: 'center', v: 'center', wrap: true };
+    merge(sh, R(1), 2, R(1), 5, ctx.hospital, { sz: 12, h: 'center' });
+    merge(sh, R(1), 7, R(1), 14, TEXT.motto1, motto);
+    put(sh, R(2), 2, TEXT.khoa, { sz: 12, b: true, h: 'right' });
+    put(sh, R(2), 3, ctx.dept, { sz: 12, b: true });
+    merge(sh, R(2), 7, R(2), 14, TEXT.motto2, motto);
+    merge(sh, R(4), 1, R(4), 14, TEXT.titlePay, { sz: 16, b: true, h: 'center', v: 'center' });
+    put(sh, R(5), 6, TEXT.month, { sz: 12, b: true, h: 'right' });
+    put(sh, R(5), 7, ctx.month, { sz: 12, b: true, h: 'center' });
+    put(sh, R(5), 8, TEXT.year, { sz: 12, b: true, h: 'left' });
+    put(sh, R(5), 9, ctx.year, { sz: 12, b: true, h: 'right' });
+    const head = { sz: 10, b: true, h: 'center', v: 'center', wrap: true, bd: BOX };
+    const money = { ...head, nf: 3 };
+    const accounting = { ...head, nf: 'acc' };
+    merge(sh, R(7), 1, R(9), 1, TEXT.stt, head);
+    merge(sh, R(7), 2, R(9), 2, TEXT.name, head);
+    merge(sh, R(7), 3, R(9), 3, TEXT.title, head);
+    merge(sh, R(7), 4, R(7), 5, TEXT.workT, head);
+    merge(sh, R(7), 6, R(7), 7, TEXT.workN, head);
+    merge(sh, R(7), 8, R(7), 9, TEXT.workL, head);
+    merge(sh, R(7), 10, R(8), 11, TEXT.total, head);
+    put(sh, R(7), 12, g.unit.meal, accounting);
+    merge(sh, R(7), 13, R(9), 13, TEXT.net, accounting);
+    merge(sh, R(7), 14, R(9), 14, TEXT.receipt, head);
+    merge(sh, R(8), 4, R(8), 5, g.unit.T, money);
+    merge(sh, R(8), 6, R(8), 7, g.unit.N, money);
+    merge(sh, R(8), 8, R(8), 9, g.unit.L, money);
+    merge(sh, R(8), 12, R(9), 12, TEXT.meal, head);
+    for (let i = 0; i < 8; i++) put(sh, R(9), 4 + i, i % 2 === 0 ? TEXT.totalDays : TEXT.amount, k.rightLabels && (i === 3 || i === 7) ? { ...head, h: 'right' } : head);
+
+    const first = R(10);
+    const count = Math.max(XLSX_MIN_ROWS[group], g.rows.length);
+    const num = { sz: 12, h: 'center', v: 'center', wrap: true, nf: 3, bd: BOX };
+    const right = { ...num, h: 'right' };
+    const figures = (r) => [r.nT, r.amtT, r.nN, r.amtN, r.nL, r.amtL, r.nTotal, r.amount, r.meal, r.net];
+    const centered = (i) => (i % 2 === 0 && i < 8) || (k.centerLeAmount && i === 5);
+    const figureStyle = (i) => (i === 6 ? { ...num, ...k.cell.days } : centered(i) ? num : i === 9 ? { ...right, b: true } : right);
+    for (let n = 0; n < count; n++) {
+      const r = first + n;
+      const row = g.rows[n];
+      const height = n === 0 ? (k.dataFirst ?? k.data) : k.data;
+      if (height) sh.heights[r] = height;
+      put(sh, r, 1, row?.stt, { ...k.cell.stt, bd: BOX });
+      put(sh, r, 2, row?.name, { ...k.cell.name, bd: BOX });
+      put(sh, r, 3, row?.title, { ...k.cell.title, bd: BOX });
+      const cols = row ? figures(row) : [];
+      for (let i = 0; i < 10; i++) put(sh, r, 4 + i, cols[i], figureStyle(i));
+      put(sh, r, 14, undefined, { sz: 12, h: 'center', v: 'center', nf: 3, bd: BOX, ...k.cell.signCol });
+    }
+    const tr = first + count;
+    sh.heights[tr] = k.total;
+    const tot = { sz: 12, b: true, v: 'center', bd: BOX };
+    merge(sh, tr, 1, tr, 2, TEXT.totalPay, { ...tot, u: true, h: 'center' });
+    put(sh, tr, 3, undefined, { ...tot, h: 'center', wrap: true });
+    figures(g.total).forEach((v, i) => put(sh, tr, 4 + i, v, { ...tot, h: centered(i) ? 'center' : 'right', wrap: true, nf: 3 }));
+    put(sh, tr, 14, undefined, { ...tot, h: 'right', nf: 3 });
+    sh.heights[tr + 1] = k.words;
+    put(sh, tr + 1, 2, TEXT.words, { sz: 13, h: 'right', v: 'center' });
+    merge(sh, tr + 1, 3, tr + 1, 14, g.words, { sz: 13, h: 'left', v: 'center', wrap: true, bd: 't' });
+    const signRow = tr + 2 + k.gap;
+    sh.heights[signRow] = k.sign;
+    merge(sh, signRow, 10, signRow, 14, ctx.sign.pay, { sz: 13, i: true, h: 'center', v: 'center', wrap: true });
+    putLabels(sh, signRow + 1, ctx.labels[group], SLOTS_PAY, 2, 14);
+    return sh;
+  }
+
+  // Màu từng khối của sheet tổng theo file gốc: nhóm đặc biệt nền xanh ngọc nhạt, nhóm thường không nền,
+  // nhóm ngoài BV nền hồng nhạt và các dòng dự phòng nền xanh lá.
+  const TONG_STYLE = {
+    dacBiet: {
+      labelFill: 'FAC090', height: 18, row: { fill: 'CCFFFF' }, spare: { fill: 'CCFFFF' },
+      name: { sz: 12, v: 'top', wrap: true }, title: { sz: 6, h: 'center', v: 'top', wrap: true }, mark: { sz: 12, h: 'center' },
+    },
+    thuong: {
+      labelFill: 'FA72D6', height: 19.2, row: {}, spare: {},
+      name: { sz: 13 }, title: { sz: 6, h: 'center', v: 'top', wrap: true }, mark: { sz: 9, b: true, h: 'center' },
+    },
+    ngoaiBV: {
+      labelFill: 'FA72D6', height: 17.6, row: { fill: 'FDEADA' }, spare: { fill: '66FF99' },
+      name: { sz: 12 }, title: { sz: 8, h: 'center' }, mark: { sz: 12, h: 'center' },
+    },
+  };
+
+  function tongSheet(ctx) {
+    const { year, month, days, t } = ctx;
+    const sh = newSheet(TONG_SHEET, TONG_WIDTHS, 16.8, [], { zoom: 85, freeze: { x: 4, y: 7 }, margins: MARGINS_TONG });
+    Object.assign(sh.heights, { 1: 23.2, 2: 17.6, 3: 17.6, 4: 15, 5: 15, 6: 57.75, 7: 17.6 });
+    merge(sh, 1, 3, 1, 8, ctx.hospital, { sz: 12, h: 'center' });
+    merge(sh, 1, 9, 1, 35, TEXT.titleCc, { sz: 16, b: true, color: ORANGE, h: 'center' });
+    put(sh, 2, 3, TEXT.khoa, { sz: 12, b: true, h: 'right' });
+    merge(sh, 2, 4, 2, 9, ctx.dept, { sz: 12, b: true, h: 'center' });
+    put(sh, 2, 20, TEXT.month, { sz: 12, b: true });
+    put(sh, 2, 23, month, { sz: 12, b: true });
+    put(sh, 2, 25, TEXT.year, { sz: 12, b: true });
+    merge(sh, 2, 28, 2, 29, year, { sz: 12, b: true, h: 'center' });
+    const head = { sz: 12, h: 'center', v: 'center', wrap: true, bd: BOX };
+    merge(sh, 4, 1, 6, 1, TEXT.sttCc, head);
+    merge(sh, 4, 3, 6, 3, TEXT.name, head);
+    merge(sh, 4, 4, 6, 4, TEXT.code, head);
+    merge(sh, 4, 5, 4, 35, TEXT.dayRange, head);
+    merge(sh, 4, 36, 4, 39, undefined, head);
+    merge(sh, 5, 36, 6, 36, TEXT.total, { ...head, sz: 11 });
+    [TEXT.dayRegular, TEXT.dayOff, TEXT.dayHoliday].forEach((text, k) => put(sh, 6, 37 + k, text, { ...head, sz: 8 }));
+    for (let i = 0; i < 31; i++) {
+      const d = days[i];
+      const fill = dayFill(d);
+      put(sh, 5, 5 + i, d ? excelSerial(year, month, d.day) : undefined, { sz: 12, h: 'center', bd: BOX, nf: 'dd', ...fill });
+      put(sh, 6, 5 + i, d ? WEEKDAY_FULL[d.weekday] : undefined, { sz: 12, h: 'center', rot: 90, bd: BOX, ...fill });
+      put(sh, 7, 5 + i, d ? d.day : undefined, { sz: 12, h: 'center', bd: BOX, ...fill });
+    }
+    [[1, 'A'], [3, 'B'], [4, 'C']].forEach(([c, text]) => put(sh, 7, c, text, { sz: 12, h: 'center', bd: BOX }));
+    for (let c = 36; c <= 39; c++) put(sh, 7, c, undefined, { sz: 12, h: 'center', bd: BOX });
+
+    let r = 8;
+    for (const g of GROUP_IDS) {
+      const st = TONG_STYLE[g];
+      const people = ctx.monthData.groups[g].filter((p) => normalizeName(p.name) !== '');
+      const slots = Math.max(TONG_SLOTS[g], people.length);
+      sh.heights[r] = 17.6;
+      put(sh, r, 1, undefined, { sz: 12, bd: BOX });
+      put(sh, r, 2, undefined, { sz: 12, bd: BOX });
+      put(sh, r, 3, GROUP_NAMES[g], { sz: 12, bd: BOX, fill: st.labelFill });
+      put(sh, r, 4, undefined, { sz: 12, bd: BOX });
+      for (let i = 0; i < 31; i++) put(sh, r, 5 + i, undefined, { sz: 12, h: 'center', bd: BOX, ...dayFill(days[i]) });
+      for (let c = 36; c <= 39; c++) put(sh, r, c, undefined, { sz: 12, b: c === 36, h: 'center', bd: BOX });
+      r++;
+      for (let n = 0; n < slots; n++, r++) {
+        const p = people[n];
+        const base = p ? st.row : st.spare;
+        const c = p ? countTypes(p, days) : null;
+        sh.heights[r] = st.height;
+        put(sh, r, 1, p ? n + 1 : undefined, { sz: 12, bd: BOX, ...base });
+        put(sh, r, 2, p ? (c.T + c.N + c.L > 0 ? 1 : 0) : undefined, { sz: 12, bd: BOX, ...base });
+        put(sh, r, 3, p?.name, { ...st.name, bd: BOX, ...base });
+        put(sh, r, 4, p?.title, { ...st.title, bd: BOX, ...base });
+        for (let i = 0; i < 31; i++) {
+          const d = days[i];
+          put(sh, r, 5 + i, p && d && p.days.includes(d.day) ? d.type : undefined, { ...st.mark, bd: BOX, ...base, ...dayFill(d) });
+        }
+        put(sh, r, 36, p ? c.T + c.N + c.L : undefined, { sz: 12, b: true, h: 'center', bd: BOX, ...base });
+        [c?.T, c?.N, c?.L].forEach((v, k) => put(sh, r, 37 + k, v, { sz: 12, h: 'center', bd: BOX, ...base }));
+      }
+    }
+    sh.heights[r] = 17.6;
+    const tot = { sz: 12, b: true, h: 'center', bd: BOX };
+    put(sh, r, 1, undefined, { sz: 12, bd: BOX });
+    put(sh, r, 2, undefined, { sz: 12, bd: BOX });
+    put(sh, r, 3, TEXT.totalCc, tot);
+    put(sh, r, 4, undefined, tot);
+    for (let i = 0; i < 31; i++) put(sh, r, 5 + i, days[i] ? t.dayTotals[i] : undefined, tot);
+    [t.sums.nTotal, t.sums.nT, t.sums.nN, t.sums.nL].forEach((v, k) => put(sh, r, 36 + k, v, tot));
+    return sh;
+  }
+
+  // Sheet của nhóm ngoài BV đặt theo người trực, như file gốc: "BS" cộng tên cuối. Nhiều người hoặc không có tên dùng được thì tên chung.
+  function outsideSheetName(monthData, taken) {
+    const named = monthData.groups.ngoaiBV.filter((p) => normalizeName(p.name) !== '');
+    if (named.length !== 1) return SHEET_NAMES.ngoaiBV;
+    const word = normalizeName(named[0].name).split(' ').pop().replace(/[\\/?*[\]:]/g, '');
+    const name = `BS ${word}`.slice(0, 31).trim();
+    return word === '' || taken.some((x) => x.toLowerCase() === name.toLowerCase()) ? SHEET_NAMES.ngoaiBV : name;
+  }
+
+  function buildSheets({ year, month, monthData, settings, days, forms }) {
+    const ctx = {
+      year, month, days, monthData,
+      hospital: normalizeName(settings.hospital),
+      dept: normalizeName(settings.department),
+      sign: signDateTexts(monthData.signDate ?? defaultSignDate(year, month)),
+      labels: signLabels(settings),
+      pay: payAll(monthData, days),
+      t: timesheetRows(monthData, days),
+      names: { ...SHEET_NAMES, ngoaiBV: outsideSheetName(monthData, [TONG_SHEET, CC_COPY_SHEET, ...Object.values(SHEET_NAMES)]) },
+    };
+    const out = [tongSheet(ctx)];
+    for (const form of SIGN_FORMS) {
+      if (!forms.includes(form)) continue;
+      out.push(form === 'chamCong' ? timesheetSheet(ctx, SHEET_NAMES.chamCong) : paySheet(form, ctx));
+    }
+    if (forms.includes('chamCong')) out.push(timesheetSheet(ctx, CC_COPY_SHEET));
+    return out;
+  }
+
+  const XML_HEAD = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const NS_MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+  const NS_REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const NS_PKG = 'http://schemas.openxmlformats.org/package/2006/relationships';
+  const CT_MAIN = 'application/vnd.openxmlformats-officedocument.spreadsheetml';
+
+  const xmlEscape = (text) => String(text)
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  const ACCOUNTING_FORMAT = '_(* #,##0_);_(* \\(#,##0\\);_(* "-"??_);_(@_)';
+
+  function styleBook() {
+    const fonts = [];
+    const fills = ['none', 'gray125'];
+    const borders = [];
+    const xfs = [];
+    const slot = (list, key) => {
+      const i = list.indexOf(key);
+      return i >= 0 ? i : list.push(key) - 1;
+    };
+    const idOf = (s = {}) => {
+      const font = slot(fonts, [s.sz ?? 11, s.b ? 1 : 0, s.i ? 1 : 0, s.u ? 1 : 0, s.color ?? ''].join('|'));
+      const fill = s.fill ? slot(fills, s.fill) : 0;
+      const border = slot(borders, s.bd ?? '');
+      const nf = s.nf === 'dd' ? 164 : s.nf === 'acc' ? 165 : (s.nf ?? 0);
+      return slot(xfs, [nf, font, fill, border, s.h ?? '', s.v ?? '', s.wrap ? 1 : 0, s.rot ?? 0].join('|'));
+    };
+    idOf();
+    const fontXml = (key) => {
+      const [sz, b, i, u, color] = key.split('|');
+      return `<font>${b === '1' ? '<b/>' : ''}${i === '1' ? '<i/>' : ''}${u === '1' ? '<u/>' : ''}<sz val="${sz}"/>${color ? `<color rgb="FF${color}"/>` : ''}<name val="Times New Roman"/><family val="1"/></font>`;
+    };
+    const fillXml = (key) => (key === 'none' || key === 'gray125'
+      ? `<fill><patternFill patternType="${key}"/></fill>`
+      : `<fill><patternFill patternType="solid"><fgColor rgb="FF${key}"/><bgColor indexed="64"/></patternFill></fill>`);
+    const borderXml = (key) => {
+      const side = (tag, ch) => (key.includes(ch) ? `<${tag} style="thin"><color auto="1"/></${tag}>` : `<${tag}/>`);
+      return `<border>${side('left', 'l')}${side('right', 'r')}${side('top', 't')}${side('bottom', 'b')}<diagonal/></border>`;
+    };
+    const xfXml = (key) => {
+      const [nf, font, fill, border, h, v, wrap, rot] = key.split('|');
+      const align = [h && `horizontal="${h}"`, v && `vertical="${v}"`, wrap === '1' && 'wrapText="1"', rot !== '0' && `textRotation="${rot}"`].filter(Boolean).join(' ');
+      return `<xf numFmtId="${nf}" fontId="${font}" fillId="${fill}" borderId="${border}" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1"${align ? ` applyAlignment="1"><alignment ${align}/></xf>` : '/>'}`;
+    };
+    const toXml = () => `${XML_HEAD}<styleSheet xmlns="${NS_MAIN}"><numFmts count="2"><numFmt numFmtId="164" formatCode="dd"/><numFmt numFmtId="165" formatCode="${xmlEscape(ACCOUNTING_FORMAT)}"/></numFmts>`
+      + `<fonts count="${fonts.length}">${fonts.map(fontXml).join('')}</fonts>`
+      + `<fills count="${fills.length}">${fills.map(fillXml).join('')}</fills>`
+      + `<borders count="${borders.length}">${borders.map(borderXml).join('')}</borders>`
+      + '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+      + `<cellXfs count="${xfs.length}">${xfs.map(xfXml).join('')}</cellXfs>`
+      + '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles><dxfs count="0"/></styleSheet>';
+    return { idOf, toXml };
+  }
+
+  function sheetXml(sh, styles, selected) {
+    const rows = new Map();
+    let maxR = 1;
+    let maxC = 1;
+    for (const cell of sh.cells.values()) {
+      if (!rows.has(cell.r)) rows.set(cell.r, []);
+      rows.get(cell.r).push(cell);
+      maxR = Math.max(maxR, cell.r);
+      maxC = Math.max(maxC, cell.c);
+    }
+    for (const r of Object.keys(sh.heights)) if (!rows.has(Number(r))) rows.set(Number(r), []);
+    const cellXml = (cell) => {
+      const ref = cellRef(cell.r, cell.c);
+      const s = styles.idOf(cell.s);
+      if (cell.v === undefined) return `<c r="${ref}" s="${s}"/>`;
+      if (typeof cell.v === 'number') return `<c r="${ref}" s="${s}"><v>${cell.v}</v></c>`;
+      return `<c r="${ref}" s="${s}" t="inlineStr"><is><t xml:space="preserve">${xmlEscape(cell.v)}</t></is></c>`;
+    };
+    const rowXml = [...rows.keys()].sort((a, b) => a - b).map((r) => {
+      const ht = sh.heights[r];
+      return `<row r="${r}"${ht ? ` ht="${ht}" customHeight="1"` : ''}>${rows.get(r).sort((a, b) => a.c - b.c).map(cellXml).join('')}</row>`;
+    }).join('');
+    const cols = sh.widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"${sh.hidden.includes(i + 1) ? ' hidden="1"' : ''}/>`).join('');
+    const merges = sh.merges.length ? `<mergeCells count="${sh.merges.length}">${sh.merges.map((m) => `<mergeCell ref="${m}"/>`).join('')}</mergeCells>` : '';
+    const m = sh.margins ?? { left: 0.25, right: 0.25, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 };
+    const tab = sh.tab ? `<tabColor rgb="FF${sh.tab}"/>` : '';
+    const zoom = sh.zoom ? ` zoomScale="${sh.zoom}" zoomScaleNormal="${sh.zoom}"` : '';
+    const selectedAttr = selected ? ' tabSelected="1"' : '';
+    const corner = sh.freeze ? cellRef(sh.freeze.y + 1, sh.freeze.x + 1) : '';
+    const view = sh.freeze
+      ? `<sheetView${selectedAttr}${zoom} workbookViewId="0"><pane xSplit="${sh.freeze.x}" ySplit="${sh.freeze.y}" topLeftCell="${corner}" activePane="bottomRight" state="frozen"/>`
+        + `<selection pane="topRight"/><selection pane="bottomLeft"/><selection pane="bottomRight" activeCell="${corner}" sqref="${corner}"/></sheetView>`
+      : `<sheetView${selectedAttr}${zoom} workbookViewId="0"/>`;
+    return `${XML_HEAD}<worksheet xmlns="${NS_MAIN}"><sheetPr>${tab}<pageSetUpPr fitToPage="1"/></sheetPr><dimension ref="A1:${cellRef(maxR, maxC)}"/>`
+      + `<sheetViews>${view}</sheetViews><sheetFormatPr defaultRowHeight="${sh.defaultHeight}" customHeight="1"/>`
+      + `<cols>${cols}</cols><sheetData>${rowXml}</sheetData>${merges}`
+      + `<pageMargins left="${m.left}" right="${m.right}" top="${m.top}" bottom="${m.bottom}" header="${m.header}" footer="${m.footer}"/>`
+      + '<pageSetup paperSize="9" orientation="landscape" fitToWidth="1" fitToHeight="0"/></worksheet>';
+  }
+
+  const CRC_TABLE = (() => {
+    const table = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      table[n] = c >>> 0;
+    }
+    return table;
+  })();
+
+  function crc32(bytes) {
+    let c = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  }
+
+  function zipStore(files, date) {
+    const enc = new TextEncoder();
+    const time = (date.getHours() << 11) | (date.getMinutes() << 5) | (date.getSeconds() >> 1);
+    const day = ((date.getFullYear() - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+    const body = [];
+    const central = [];
+    let offset = 0;
+    for (const { name, data } of files) {
+      const nameBytes = enc.encode(name);
+      const crc = crc32(data);
+      const local = new DataView(new ArrayBuffer(30));
+      local.setUint32(0, 0x04034b50, true);
+      local.setUint16(4, 20, true);
+      local.setUint16(6, 0x0800, true);
+      local.setUint16(10, time, true);
+      local.setUint16(12, day, true);
+      local.setUint32(14, crc, true);
+      local.setUint32(18, data.length, true);
+      local.setUint32(22, data.length, true);
+      local.setUint16(26, nameBytes.length, true);
+      body.push(new Uint8Array(local.buffer), nameBytes, data);
+      const entry = new DataView(new ArrayBuffer(46));
+      entry.setUint32(0, 0x02014b50, true);
+      entry.setUint16(4, 20, true);
+      entry.setUint16(6, 20, true);
+      entry.setUint16(8, 0x0800, true);
+      entry.setUint16(12, time, true);
+      entry.setUint16(14, day, true);
+      entry.setUint32(16, crc, true);
+      entry.setUint32(20, data.length, true);
+      entry.setUint32(24, data.length, true);
+      entry.setUint16(28, nameBytes.length, true);
+      entry.setUint32(42, offset, true);
+      central.push(new Uint8Array(entry.buffer), nameBytes);
+      offset += 30 + nameBytes.length + data.length;
+    }
+    const end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true);
+    end.setUint16(8, files.length, true);
+    end.setUint16(10, files.length, true);
+    end.setUint32(12, central.reduce((s, p) => s + p.length, 0), true);
+    end.setUint32(16, offset, true);
+    const all = [...body, ...central, new Uint8Array(end.buffer)];
+    const out = new Uint8Array(all.reduce((s, p) => s + p.length, 0));
+    let pos = 0;
+    for (const part of all) {
+      out.set(part, pos);
+      pos += part.length;
+    }
+    return out;
+  }
+
+  function xlsxBytes(sheets, date = new Date()) {
+    const styles = styleBook();
+    const sheetXmls = sheets.map((sh, i) => sheetXml(sh, styles, i === 0));
+    const n = sheets.length;
+    const parts = [
+      ['[Content_Types].xml', `${XML_HEAD}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="${CT_MAIN}.sheet.main+xml"/>${sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="${CT_MAIN}.worksheet+xml"/>`).join('')}<Override PartName="/xl/styles.xml" ContentType="${CT_MAIN}.styles+xml"/></Types>`],
+      ['_rels/.rels', `${XML_HEAD}<Relationships xmlns="${NS_PKG}"><Relationship Id="rId1" Type="${NS_REL}/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+      ['xl/workbook.xml', `${XML_HEAD}<workbook xmlns="${NS_MAIN}" xmlns:r="${NS_REL}"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((sh, i) => `<sheet name="${xmlEscape(sh.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets></workbook>`],
+      ['xl/_rels/workbook.xml.rels', `${XML_HEAD}<Relationships xmlns="${NS_PKG}">${sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="${NS_REL}/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}<Relationship Id="rId${n + 1}" Type="${NS_REL}/styles" Target="styles.xml"/></Relationships>`],
+      ['xl/styles.xml', styles.toXml()],
+      ...sheetXmls.map((xml, i) => [`xl/worksheets/sheet${i + 1}.xml`, xml]),
+    ];
+    const enc = new TextEncoder();
+    return zipStore(parts.map(([name, text]) => ({ name, data: enc.encode(text) })), date);
+  }
+
+  const xlsxFileName = (year, month) => `TRỰC THÁNG ${pad2(month)} ${year}.xlsx`;
+
+  // ----- Nhập từ file xlsx: đọc gói zip, đọc XML, hiểu bố cục bảng chấm công in và các bảng thanh toán -----
+
+  const XLSX_PART_LIMIT = 64 * 1024 * 1024;
+  const IMPORT_SHEETS = {
+    tong: ['tổng'],
+    chamCong: ['bảng chấm công in'],
+    thuong: ['Trực thường'],
+    dacBiet: ['Trực ĐB'],
+    ngoaiBV: ['Trực ngoài BV'],
+  };
+  const sheetKey = (name) => normalizeName(name).toLowerCase();
+  const u16 = (b, o) => b[o] | (b[o + 1] << 8);
+  const u32 = (b, o) => (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0;
+  const notZip = () => new Error('File không phải xlsx hợp lệ (không đọc được gói zip).');
+  const tooBig = () => new Error('Một phần của file xlsx quá lớn khi giải nén.');
+
+  async function inflateRaw(bytes, limit) {
+    if (typeof DecompressionStream === 'undefined') {
+      throw new Error('Trình duyệt chưa hỗ trợ giải nén file xlsx (cần Chrome hoặc Edge 80, Safari 16.4, Firefox 113 trở lên).');
+    }
+    const reader = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+    const chunks = [];
+    let total = 0;
+    try {
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        total += value.length;
+        if (total > limit) {
+          await reader.cancel();
+          throw tooBig();
+        }
+        chunks.push(value);
+      }
+    } catch (err) {
+      if (err instanceof TypeError) throw new Error('File xlsx bị hỏng (không giải nén được).');
+      throw err;
+    }
+    const out = new Uint8Array(total);
+    let pos = 0;
+    for (const chunk of chunks) {
+      out.set(chunk, pos);
+      pos += chunk.length;
+    }
+    return out;
+  }
+
+  function openZip(bytes) {
+    if (!(bytes instanceof Uint8Array) || bytes.length < 22) throw notZip();
+    let end = -1;
+    for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 22 - 65535); i--) {
+      if (u32(bytes, i) === 0x06054b50) {
+        end = i;
+        break;
+      }
+    }
+    if (end < 0) throw notZip();
+    const entries = new Map();
+    let pos = u32(bytes, end + 16);
+    for (let i = 0, count = u16(bytes, end + 10); i < count; i++) {
+      if (pos + 46 > bytes.length || u32(bytes, pos) !== 0x02014b50) throw notZip();
+      const nameLen = u16(bytes, pos + 28);
+      const name = new TextDecoder().decode(bytes.subarray(pos + 46, pos + 46 + nameLen));
+      entries.set(name, { method: u16(bytes, pos + 10), packed: u32(bytes, pos + 20), size: u32(bytes, pos + 24), offset: u32(bytes, pos + 42) });
+      pos += 46 + nameLen + u16(bytes, pos + 30) + u16(bytes, pos + 32);
+    }
+    async function read(name) {
+      const e = entries.get(name);
+      if (!e) return null;
+      if (e.size > XLSX_PART_LIMIT) throw tooBig();
+      if (e.packed === 0xffffffff || e.size === 0xffffffff) throw new Error('File xlsx dùng zip64, chưa được hỗ trợ.');
+      if (e.offset + 30 > bytes.length || u32(bytes, e.offset) !== 0x04034b50) throw notZip();
+      const start = e.offset + 30 + u16(bytes, e.offset + 26) + u16(bytes, e.offset + 28);
+      const raw = bytes.subarray(start, start + e.packed);
+      if (raw.length !== e.packed) throw notZip();
+      if (e.method === 0) return raw;
+      if (e.method === 8) return inflateRaw(raw, XLSX_PART_LIMIT);
+      throw new Error('File xlsx dùng kiểu nén chưa được hỗ trợ.');
+    }
+    return { read };
+  }
+
+  const XML_ENTITIES = { lt: '<', gt: '>', amp: '&', quot: '"', apos: "'" };
+
+  function decodeXml(text) {
+    return text
+      .replace(/&(#x[0-9a-fA-F]+|#[0-9]+|lt|gt|amp|quot|apos);/g, (m, e) => {
+        if (e[0] !== '#') return XML_ENTITIES[e];
+        const code = e[1] === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+        return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : '';
+      })
+      .replace(/_x([0-9A-Fa-f]{4})_/g, (m, hex) => String.fromCharCode(parseInt(hex, 16)));
+  }
+
+  function attrsOf(text) {
+    const out = {};
+    for (const m of text.matchAll(/([\w:.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) out[m[1]] = decodeXml(m[2] ?? m[3]);
+    return out;
+  }
+
+  const xmlText = (xml) => [...xml.replace(/<rPh\b[\s\S]*?<\/rPh>/g, '').matchAll(/<t\b[^>]*?(?:\/>|>([\s\S]*?)<\/t>)/g)]
+    .map((m) => decodeXml(m[1] ?? '')).join('');
+
+  const parseSharedStrings = (xml) => [...xml.matchAll(/<si\b[^>]*?(?:\/>|>([\s\S]*?)<\/si>)/g)].map((m) => xmlText(m[1] ?? ''));
+
+  function colNumber(letters) {
+    let n = 0;
+    for (const ch of letters) n = n * 26 + ch.charCodeAt(0) - 64;
+    return n;
+  }
+
+  // Trả về Map từ "dòng,cột" sang chữ hoặc số. Ô công thức lấy kết quả đã lưu, ô trống bị bỏ qua.
+  function parseSheetCells(xml, shared) {
+    const cells = new Map();
+    for (const m of xml.matchAll(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
+      if (m[2] === undefined) continue;
+      const a = attrsOf(m[1]);
+      const ref = /^([A-Z]+)(\d+)$/.exec(a.r ?? '');
+      if (!ref) continue;
+      let value;
+      if (a.t === 'inlineStr') {
+        value = xmlText(/<is\b[\s\S]*?<\/is>/.exec(m[2])?.[0] ?? '');
+      } else {
+        const v = /<v\b[^>]*>([\s\S]*?)<\/v>/.exec(m[2]);
+        if (!v || v[1] === '') continue;
+        if (a.t === 's') value = shared[Number(v[1])];
+        else if (a.t === 'str') value = decodeXml(v[1]);
+        else if (a.t === 'b' || a.t === 'e' || a.t === 'd') continue;
+        else value = Number(v[1]);
+      }
+      if (value === undefined || value === '' || (typeof value === 'number' && !Number.isFinite(value))) continue;
+      cells.set(`${ref[2]},${colNumber(ref[1])}`, value);
+    }
+    return cells;
+  }
+
+  async function readXlsx(bytes, wanted = []) {
+    const zip = openZip(bytes);
+    const text = async (name) => {
+      const data = await zip.read(name);
+      return data === null ? null : new TextDecoder().decode(data);
+    };
+    const bookXml = await text('xl/workbook.xml');
+    const relsXml = await text('xl/_rels/workbook.xml.rels');
+    if (bookXml === null || relsXml === null) throw new Error('File không phải xlsx hợp lệ (thiếu xl/workbook.xml).');
+    const targets = new Map();
+    for (const m of relsXml.matchAll(/<Relationship\b([^>]*?)\/?>/g)) {
+      const a = attrsOf(m[1]);
+      if (a.Id && a.Target) targets.set(a.Id, a.Target);
+    }
+    const sheets = [];
+    for (const m of bookXml.matchAll(/<sheet\b([^>]*?)\/?>/g)) {
+      const a = attrsOf(m[1]);
+      const rid = a['r:id'] ?? Object.entries(a).find(([k]) => k.endsWith(':id'))?.[1];
+      const target = targets.get(rid);
+      if (!a.name || !target) continue;
+      const path = target.replace(/^\//, '');
+      sheets.push({ name: a.name, path: path.startsWith('xl/') ? path : `xl/${path}`, hidden: a.state === 'hidden' || a.state === 'veryHidden' });
+    }
+    const wantedKeys = new Set(wanted.map(sheetKey));
+    const sharedXml = await text('xl/sharedStrings.xml');
+    const shared = sharedXml === null ? [] : parseSharedStrings(sharedXml);
+    const loaded = new Map();
+    for (const s of sheets) {
+      if (!wantedKeys.has(sheetKey(s.name))) continue;
+      const xml = await text(s.path);
+      if (xml !== null) loaded.set(sheetKey(s.name), { name: s.name, cells: parseSheetCells(xml, shared) });
+    }
+    return { sheetNames: sheets.map((s) => s.name), visibleNames: sheets.filter((s) => !s.hidden).map((s) => s.name), sheets: loaded };
+  }
+
+  const cellText = (sheet, row, col) => {
+    const v = sheet.cells.get(`${row},${col}`);
+    return v === undefined ? '' : normalizeName(String(v));
+  };
+
+  function cellNumber(sheet, row, col) {
+    const v = sheet.cells.get(`${row},${col}`);
+    const n = typeof v === 'number' ? v : (typeof v === 'string' && /^\s*\d+(?:[.,]\d+)?\s*$/.test(v) ? Number(v.replace(',', '.')) : NaN);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function lastRow(sheet) {
+    let max = 0;
+    for (const key of sheet.cells.keys()) max = Math.max(max, Number(key.slice(0, key.indexOf(','))));
+    return max;
+  }
+
+  const round6 = (x) => Math.round(x * 1e6) / 1e6;
+
+  function monthYearOf(sheet, label) {
+    const numberAfter = (word) => {
+      for (let r = 1; r <= 4; r++) {
+        for (let c = 1; c <= 60; c++) {
+          if (cellText(sheet, r, c).toLowerCase() !== word) continue;
+          for (let k = c + 1; k <= c + 8; k++) {
+            const n = cellNumber(sheet, r, k);
+            if (n !== null) return n;
+          }
+        }
+      }
+      return null;
+    };
+    const month = numberAfter('tháng');
+    const year = numberAfter('năm');
+    if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year) || year < 2000 || year > 2100) {
+      throw new Error(`Không đọc được tháng và năm ở sheet "${label}".`);
+    }
+    return { month, year };
+  }
+
+  function readTimesheet(sheet) {
+    const { month, year } = monthYearOf(sheet, 'bảng chấm công in');
+    let header = 0;
+    for (let r = 1; r <= 12 && !header; r++) if (cellText(sheet, r, 3).toLowerCase() === 'họ và tên') header = r;
+    if (!header) throw new Error('Sheet "bảng chấm công in" không có cột "Họ và tên".');
+    const dim = daysInMonth(year, month);
+    const rows = [];
+    let beyond = 0;
+    for (let r = header + 4, end = lastRow(sheet); r <= end; r++) {
+      const name = cellText(sheet, r, 3);
+      if (/^tổng cộng/i.test(name)) break;
+      if (name === '') continue;
+      const days = [];
+      for (let d = 1; d <= 31; d++) {
+        const v = sheet.cells.get(`${r},${4 + d}`);
+        if (v === undefined || v === 0 || normalizeName(String(v)) === '') continue;
+        if (d <= dim) days.push(d);
+        else beyond++;
+      }
+      const c = [37, 38, 39].map((col) => cellNumber(sheet, r, col));
+      rows.push({ name, title: cellText(sheet, r, 4), days, counts: c.every((x) => x === null) ? null : { T: c[0] ?? 0, N: c[1] ?? 0, L: c[2] ?? 0 } });
+    }
+    return { year, month, hospital: cellText(sheet, 1, 3), department: cellText(sheet, 2, 4), rows, beyond };
+  }
+
+  const GROUP_HEADS = [['dacBiet', 'trực đặc biệt'], ['thuong', 'trực thường'], ['ngoaiBV', 'trực ngoài bv']];
+
+  // Sheet tổng là sheet nhập liệu của file gốc: dòng đầu nhóm ở cột C, tên ở cột C, chức danh ở cột D, ngày trực ở cột E đến AI.
+  // Người không trực cũng có mặt, và chữ T, N, L là chữ người dùng gõ. Trả về null nếu không thấy dòng đầu nhóm nào.
+  function readTong(sheet) {
+    const last = lastRow(sheet);
+    const heads = [];
+    for (let r = 1; r <= last; r++) {
+      const label = cellText(sheet, r, 3).toLowerCase();
+      const hit = GROUP_HEADS.find(([, text]) => text === label);
+      if (hit) heads.push({ group: hit[0], row: r });
+    }
+    if (heads.length === 0) return null;
+    const { month, year } = monthYearOf(sheet, 'tổng');
+    const dim = daysInMonth(year, month);
+    let end = last + 1;
+    for (let r = heads[heads.length - 1].row + 1; r <= last; r++) {
+      if (/^tổng cộng/i.test(cellText(sheet, r, 3))) {
+        end = r;
+        break;
+      }
+    }
+    const groups = { dacBiet: [], thuong: [], ngoaiBV: [] };
+    const holidays = new Set();
+    let beyond = 0;
+    heads.forEach((head, i) => {
+      const stop = i + 1 < heads.length ? heads[i + 1].row : end;
+      for (let r = head.row + 1; r < stop; r++) {
+        const name = cellText(sheet, r, 3);
+        if (name === '') continue;
+        const days = [];
+        const counts = { T: 0, N: 0, L: 0 };
+        for (let d = 1; d <= 31; d++) {
+          const v = sheet.cells.get(`${r},${4 + d}`);
+          const letter = v === undefined || v === 0 ? '' : normalizeName(String(v)).toUpperCase();
+          if (letter === '') continue;
+          if (d > dim) {
+            beyond++;
+            continue;
+          }
+          days.push(d);
+          if (letter === 'T' || letter === 'N' || letter === 'L') counts[letter]++;
+          if (letter === 'L') holidays.add(isoDate(year, month, d));
+        }
+        groups[head.group].push({ name, title: cellText(sheet, r, 4), days, counts });
+      }
+    });
+    return { year, month, hospital: cellText(sheet, 1, 3), department: cellText(sheet, 2, 4), groups, holidays: [...holidays].sort(), beyond };
+  }
+
+  function readPaySheet(sheet) {
+    let head = 0;
+    for (let r = 1; r <= 15 && !head; r++) if (cellText(sheet, r, 1).toLowerCase() === 'stt') head = r;
+    if (!head) return null;
+    const base = cellNumber(sheet, head + 1, 4);
+    const nghi = cellNumber(sheet, head + 1, 6);
+    const le = cellNumber(sheet, head + 1, 8);
+    const meal = cellNumber(sheet, head, 12);
+    const people = new Set();
+    for (let r = head + 3, end = lastRow(sheet); r <= end; r++) {
+      if (/^tổng cộng/i.test(cellText(sheet, r, 1))) break;
+      const name = cellText(sheet, r, 2);
+      if (name !== '') people.add(name);
+    }
+    const ok = base > 0 && nghi > 0 && le > 0;
+    return {
+      names: people,
+      rates: ok ? { donGia: base, ...(meal === null ? {} : { tienAn: meal }), heSoNghi: round6(nghi / base), heSoLe: round6(le / base) } : null,
+    };
+  }
+
+  async function importXlsx(bytes) {
+    const known = Object.values(IMPORT_SHEETS).flat();
+    const book = await readXlsx(bytes, known);
+    const sheetOf = (key) => IMPORT_SHEETS[key].map((n) => book.sheets.get(sheetKey(n))).find(Boolean) ?? null;
+    // Ưu tiên sheet tổng (sheet nhập liệu, có đủ người và nhóm). File do trang xuất không có sheet tổng nên dùng bảng chấm công in.
+    const tongSheet = sheetOf('tong');
+    const tong = tongSheet ? readTong(tongSheet) : null;
+    const timesheetSheet = tong ? null : sheetOf('chamCong');
+    if (!tong && !timesheetSheet) {
+      throw new Error(tongSheet
+        ? 'Không thấy sheet "tổng" có dòng đầu nhóm (Trực đặc biệt, Trực thường, Trực ngoài BV) và cũng không thấy sheet "bảng chấm công in".'
+        : 'Không thấy sheet "tổng" hoặc "bảng chấm công in" trong file.');
+    }
+    const ts = tong ?? readTimesheet(timesheetSheet);
+    const notes = [];
+    // Sheet thanh toán của nhóm ngoài BV mỗi khoa đặt một tên: nếu không có tên chuẩn thì nhận ra theo cấu trúc
+    // trong các sheet đang hiện mà chưa dùng, chỉ khi có đúng một sheet như vậy.
+    let outsideSheet = sheetOf('ngoaiBV');
+    let ambiguous = false;
+    if (!outsideSheet) {
+      const knownKeys = new Set(known.map(sheetKey));
+      const names = book.visibleNames.filter((n) => !knownKeys.has(sheetKey(n)));
+      const extra = await readXlsx(bytes, names);
+      const found = names.map((n) => extra.sheets.get(sheetKey(n))).filter((s) => s && readPaySheet(s));
+      if (found.length === 1) [outsideSheet] = found;
+      else if (found.length > 1) {
+        ambiguous = true;
+        notes.push(`Có ${found.length} sheet đang hiện trông như bảng thanh toán nhưng không rõ sheet nào là ${GROUP_NAMES.ngoaiBV}, nên bỏ qua nhóm này.`);
+      }
+    }
+    // Đơn giá, tiền ăn và hệ số chỉ có ở các bảng thanh toán, kể cả khi người và ngày trực đọc từ sheet tổng.
+    const pay = {};
+    const rates = {};
+    for (const g of GROUP_IDS) {
+      const sheet = g === 'ngoaiBV' ? outsideSheet : sheetOf(g);
+      pay[g] = sheet ? readPaySheet(sheet) : null;
+      if (!pay[g]) {
+        if (!(g === 'ngoaiBV' && ambiguous)) notes.push(`Không thấy sheet "${SHEET_NAMES[g]}": giữ nguyên đơn giá và hệ số của ${GROUP_NAMES[g]}.`);
+      } else if (pay[g].rates) {
+        rates[g] = pay[g].rates;
+      } else {
+        notes.push(`${GROUP_NAMES[g]}: không đọc được đơn giá và hệ số ở sheet "${SHEET_NAMES[g]}", giữ nguyên số hiện có.`);
+      }
+    }
+    let groups = tong ? tong.groups : null;
+    if (!groups) {
+      // Bảng chấm công in gộp ba nhóm và không ghi nhóm, nên nhóm được suy ra từ tên trong các bảng thanh toán.
+      groups = { dacBiet: [], thuong: [], ngoaiBV: [] };
+      const seen = new Map();
+      let unmatched = 0;
+      for (const row of ts.rows) {
+        const options = GROUP_IDS.filter((g) => pay[g] && pay[g].names.has(row.name));
+        const k = seen.get(row.name) ?? 0;
+        seen.set(row.name, k + 1);
+        if (options.length === 0) unmatched++;
+        groups[options.length === 0 ? 'thuong' : options[Math.min(k, options.length - 1)]].push(row);
+      }
+      if (unmatched > 0) notes.push(`${unmatched} dòng ở bảng chấm công in không có trong bảng thanh toán nào, đã xếp vào ${GROUP_NAMES.thuong}.`);
+    }
+    if (ts.beyond > 0) notes.push(`${ts.beyond} ô ngày nằm ngoài tháng ${ts.month}, đã bỏ qua.`);
+    return {
+      source: tong ? 'tong' : 'chamCong',
+      year: ts.year,
+      month: ts.month,
+      hospital: ts.hospital,
+      department: ts.department,
+      groups,
+      holidays: tong ? tong.holidays : [],
+      rates,
+      notes,
+    };
+  }
+
+  const IMPORT_HOLIDAY_NAME = 'Ngày lễ theo file xlsx, chờ kế toán xác nhận';
+  const dmy = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+
+  // Đặt ngày trực của tháng theo file. Không xóa người: người không có trong file giữ tên nhưng mất ngày trực.
+  // Ngày có chữ L trong file mà chưa có trong danh sách ngày lễ được thêm ở trạng thái chưa xác nhận.
+  function applyImport(data, imported, template = null) {
+    const { year, month } = imported;
+    const { key, monthData } = getMonth(data, year, month, template);
+    const holidaysAdded = [];
+    for (const date of imported.holidays ?? []) {
+      if (data.settings.holidays.some((h) => h.date === date)) continue;
+      data.settings.holidays.push({ date, name: IMPORT_HOLIDAY_NAME, confirmed: false });
+      holidaysAdded.push(date);
+    }
+    data.settings.holidays.sort(byDate);
+    const dayList = monthDays(year, month, holidayIsoSet(data.settings));
+    const notes = [...imported.notes];
+    const sum = { added: 0, updated: 0, cleared: 0, duty: 0, mismatch: 0 };
+    for (const g of GROUP_IDS) {
+      const people = monthData.groups[g];
+      const taken = new Set();
+      for (const row of imported.groups[g]) {
+        let person = people.find((p) => !taken.has(p.id) && normalizeName(p.name) === row.name);
+        if (person) {
+          sum.updated++;
+          if (normalizeName(person.title) === '' && row.title !== '') person.title = row.title;
+        } else {
+          person = addPerson(monthData, g, { name: row.name, title: row.title });
+          sum.added++;
+        }
+        taken.add(person.id);
+        person.days = [...row.days];
+        sum.duty += row.days.length;
+        if (row.counts) {
+          const c = countTypes(person, dayList);
+          if (c.T !== row.counts.T || c.N !== row.counts.N || c.L !== row.counts.L) sum.mismatch++;
+        }
+      }
+      for (const p of people) {
+        if (!taken.has(p.id) && p.days.length > 0) {
+          p.days = [];
+          sum.cleared++;
+        }
+      }
+    }
+    const ratesFilled = GROUP_IDS.filter((g) => imported.rates[g]);
+    for (const g of ratesFilled) Object.assign(monthData.rates[g], imported.rates[g]);
+    data.months[key] = monthData;
+    for (const [field, value] of [['hospital', imported.hospital], ['department', imported.department]]) {
+      if (value && normalizeName(data.settings[field]) === '') data.settings[field] = value;
+    }
+    if (holidaysAdded.length > 0) {
+      notes.push(`Đã thêm ngày lễ theo chữ L trong file (chưa xác nhận): ${holidaysAdded.map(dmy).join(', ')}. Kế toán xác nhận trước khi dùng để tính tiền.`);
+    }
+    if (sum.mismatch > 0) notes.push(`${sum.mismatch} dòng có số ngày T, N, L khác file. Kiểm tra mục Ngày lễ của năm ${year}.`);
+    return { key, added: sum.added, updated: sum.updated, cleared: sum.cleared, duty: sum.duty, ratesFilled, holidaysAdded, notes };
+  }
+
+  return {
+    TEXT, SHEET_NAMES, MIN_ROWS, buildSheets, xlsxBytes, xlsxFileName, readXlsx, importXlsx, applyImport,
+    GROUP_IDS, GROUP_NAMES, RATE_FIELDS, RATE_LABELS, WEEKDAY_SHORT, WEEKDAY_FULL, SIGN_FORMS, SIGN_LABELS,
+    daysInMonth, isoDate, monthKey, parseMonthKey, shiftMonth, monthDays, defaultSignDate, signDateTexts,
+    normalizeName, parseMoney, parseCoef, soTienBangChu, countTypes, payGroup, payAll, timesheetRows,
+    emptyData, checkShape, parseDataText, monthTemplate, getMonth, addPerson, removePerson, movePerson, toggleDay,
+    cellKeyAction, letterNote, gridStep,
+    holidayIsoSet, holidaysOfYear, addHoliday, removeHoliday, seedHolidays, mergeDefaults, clearIdleRosters, signLabels, validateMonth,
+  };
+})();
+</script>
+<script id="giao-dien">
+(() => {
+  'use strict';
+
+  const KEY = 'truc_thang_du_lieu_v1';
+  const PREFS_KEY = 'truc_thang_tuy_chon_v1';
+  const FORM_TITLES = { chamCong: 'Bảng chấm công in', thuong: 'Trực thường', dacBiet: 'Trực ĐB', ngoaiBV: 'Trực ngoài BV' };
+  const $ = (id) => document.getElementById(id);
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const numberFormat = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 });
+  const fm = (n) => (n === null || n === undefined ? '' : numberFormat.format(Math.round(n)));
+  const num = (n) => (n === null || n === undefined ? '' : String(n));
+  const coefText = (n) => String(n).replace('.', ',');
+  const fmtDate = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+  const dayClass = (d) => (d.type === 'L' ? 'l' : d.type === 'N' ? 'n' : '');
+  const formDayClass = (d) => (!d ? '' : d.type === 'L' ? 'cl' : d.type === 'N' ? 'cn' : '');
+
+  function h(tag, props = {}, ...children) {
+    const el = document.createElement(tag);
+    for (const [key, value] of Object.entries(props)) {
+      if (value === undefined || value === null || value === false) continue;
+      if (key === 'class') el.className = value;
+      else if (key === 'dataset') Object.assign(el.dataset, value);
+      else if (key.startsWith('on')) el.addEventListener(key.slice(2), value);
+      else if (key in el) el[key] = value;
+      else el.setAttribute(key, value === true ? '' : String(value));
+    }
+    for (const child of children.flat()) {
+      if (child === null || child === undefined || child === false) continue;
+      el.append(child instanceof Node ? child : document.createTextNode(String(child)));
+    }
+    return el;
+  }
+
+  let data = TT.emptyData();
+  let corruptRaw = null;
+  let ym = { year: new Date().getFullYear(), month: new Date().getMonth() + 1 };
+  let cur = null;
+  let template = null;
+  let days = [];
+  let pay = null;
+  let saveTimer = 0;
+  let prefs = { in: { chamCong: true, thuong: true, dacBiet: true, ngoaiBV: true } };
+
+  const serialize = () => `${JSON.stringify(data, null, 2)}\n`;
+
+  function setStatus(text, isError = false) {
+    const el = $('trang-thai');
+    el.textContent = text;
+    el.className = isError ? 'loi' : '';
+  }
+
+  function showNotice(text) {
+    const el = $('thong-bao');
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function save() {
+    saveTimer = 0;
+    try {
+      if (corruptRaw !== null) {
+        localStorage.setItem(`${KEY}_loi`, corruptRaw);
+        corruptRaw = null;
+      }
+      localStorage.setItem(KEY, serialize());
+      const t = new Date();
+      setStatus(`Đã tự lưu trong trình duyệt lúc ${pad2(t.getHours())}:${pad2(t.getMinutes())}.`);
+    } catch {
+      setStatus('Không tự lưu được trong trình duyệt (bị chặn hoặc đầy). Hãy bấm Xuất xlsx để giữ bản.', true);
+    }
+  }
+
+  function persistSoon() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(save, 300);
+    setStatus('Đang lưu...');
+  }
+
+  function edit() {
+    if (!cur.exists) {
+      data.months[cur.key] = cur.monthData;
+      cur.exists = true;
+    }
+    persistSoon();
+  }
+
+  function savePrefs() {
+    try {
+      localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+    } catch {
+      // không lưu được lựa chọn in thì dùng mặc định lần sau
+    }
+  }
+
+  function renderTop() {
+    $('thang').value = String(ym.month);
+    $('nam').value = String(ym.year);
+    $('benh-vien').value = data.settings.hospital ?? '';
+    $('khoa').value = data.settings.department ?? '';
+  }
+
+  const personOf = (tr) => cur.monthData.groups[tr.dataset.group].find((p) => p.id === tr.dataset.id);
+  const TOTAL_KEYS = ['total', 'T', 'N', 'L'];
+  const TOTAL_HEAD = { total: 'Tổng', T: 'Thường', N: 'Nghỉ', L: 'Lễ' };
+  const countText = (n) => (n ? String(n) : '');
+  const cellLabel = (p, d, on) => `Ngày ${d.day}, ${TT.WEEKDAY_FULL[d.weekday]}, ${TT.normalizeName(p.name) || 'chưa có tên'}: ${on ? 'có trực' : 'không trực'}`;
+  let activeCell = null;
+  let line = null;
+
+  // Tô dòng đang chọn và tiêu đề ngày của ô đó để lần theo một người từ cột tên sang các cột ngày.
+  function paintLine() {
+    const grid = $('luoi');
+    for (const el of grid.querySelectorAll('.dang-chon, .cot-chon')) el.classList.remove('dang-chon', 'cot-chon');
+    if (!line) return;
+    [...grid.querySelectorAll('tr[data-id]')].find((tr) => tr.dataset.id === line.id)?.classList.add('dang-chon');
+    if (line.day) grid.querySelector(`thead th.ngay[data-day="${line.day}"]`)?.classList.add('cot-chon');
+  }
+
+  function personRow(group, p, n) {
+    const c = TT.countTypes(p, days);
+    const on = new Set(p.days);
+    const small = (act, text, label) => h('button', { type: 'button', class: 'nho', tabindex: '-1', dataset: { act }, 'aria-label': label }, text);
+    return h('tr', { class: n % 2 === 0 ? 'chan' : undefined, dataset: { id: p.id, group } },
+      h('td', { class: 'stt' }, String(n)),
+      h('td', { class: 'ten' }, h('input', { type: 'text', value: p.name, placeholder: 'Họ và tên', 'aria-label': 'Họ và tên', tabindex: '-1', dataset: { f: 'name' } })),
+      h('td', { class: 'cd' }, h('input', { type: 'text', value: p.title, 'aria-label': 'Chức danh', tabindex: '-1', dataset: { f: 'title' } })),
+      days.map((d) => h('td', {
+        class: `o ${dayClass(d)}${on.has(d.day) ? ' bat' : ''}`,
+        tabindex: '-1',
+        'aria-label': cellLabel(p, d, on.has(d.day)),
+        dataset: { day: d.day },
+      }, on.has(d.day) ? d.type : '')),
+      TOTAL_KEYS.map((k) => h('td', { class: 'dem', dataset: { k } }, countText(c[k]))),
+      h('td', { class: 'hd' }, small('len', '▲', 'Chuyển lên'), small('xuong', '▼', 'Chuyển xuống'), small('xoa', '×', 'Xóa người này')));
+  }
+
+  function gridHead() {
+    const th = (cls, content, props = {}) => h('th', { class: cls, scope: 'col', ...props }, content);
+    return h('thead', {}, h('tr', {},
+      th('stt', TT.TEXT.sttCc),
+      th('ten', TT.TEXT.name),
+      th('cd', TT.TEXT.title),
+      days.map((d) => th(`ngay ${dayClass(d)}`, [String(d.day), h('small', {}, TT.WEEKDAY_SHORT[d.weekday])], { title: `${TT.WEEKDAY_FULL[d.weekday]} ${fmtDate(d.iso)}`, dataset: { day: d.day } })),
+      TOTAL_KEYS.map((k) => th('dem', TOTAL_HEAD[k])),
+      th('hd', '')));
+  }
+
+  function groupHead(group) {
+    const cols = 3 + days.length + TOTAL_KEYS.length + 1;
+    return h('tr', { class: `nhom-dau g-${group}`, dataset: { group } },
+      h('td', { colspan: cols }, h('div', { class: 'nhom-the' },
+        h('b', {}, TT.GROUP_NAMES[group]),
+        h('button', { type: 'button', class: 'them', dataset: { act: 'them', group } }, '+ Thêm người'))));
+  }
+
+  function gridFoot() {
+    return h('tfoot', {}, h('tr', { class: 'tong' },
+      h('td', { class: 'nhan', colspan: 3 }, TT.TEXT.totalCc),
+      days.map((d) => h('td', { class: `dt ${dayClass(d)}`, dataset: { day: d.day } })),
+      TOTAL_KEYS.map((k) => h('td', { class: 'dem', dataset: { k } })),
+      h('td', { class: 'hd' })));
+  }
+
+  function updateFooter() {
+    const foot = $('luoi').querySelector('tfoot');
+    if (!foot) return;
+    const t = TT.timesheetRows(cur.monthData, days);
+    t.dayTotals.forEach((n, i) => {
+      foot.querySelector(`td.dt[data-day="${i + 1}"]`).textContent = countText(n);
+    });
+    const sums = { total: t.sums.nTotal, T: t.sums.nT, N: t.sums.nN, L: t.sums.nL };
+    for (const k of TOTAL_KEYS) foot.querySelector(`td.dem[data-k="${k}"]`).textContent = countText(sums[k]);
+  }
+
+  const rowButtons = (el) => el.closest('tr').querySelectorAll('button[data-act]');
+
+  function setActive(el) {
+    if (activeCell === el) return;
+    if (activeCell && activeCell.isConnected) {
+      activeCell.tabIndex = -1;
+      for (const b of rowButtons(activeCell)) b.tabIndex = -1;
+    }
+    activeCell = el;
+    el.tabIndex = 0;
+    for (const b of rowButtons(el)) b.tabIndex = 0;
+  }
+
+  function renderGrid() {
+    const colgroup = h('colgroup', {},
+      ['stt', 'ten', 'cd'].map((k) => h('col', { style: `width:var(--w-${k})` })),
+      days.map(() => h('col', { style: 'width:var(--w-ngay)' })),
+      TOTAL_KEYS.map(() => h('col', { style: 'width:var(--w-dem)' })),
+      h('col', { style: 'width:var(--w-hd)' }));
+    const bodies = TT.GROUP_IDS.map((group) => h('tbody', {},
+      groupHead(group),
+      cur.monthData.groups[group].map((p, i) => personRow(group, p, i + 1))));
+    const width = `calc(var(--w-stt) + var(--w-ten) + var(--w-cd) + ${days.length} * var(--w-ngay) + ${TOTAL_KEYS.length} * var(--w-dem) + var(--w-hd))`;
+    $('luoi').replaceChildren(h('table', { class: 'luoi', role: 'grid', 'aria-label': 'Bảng chấm công trực', style: `width:${width}` },
+      colgroup, gridHead(), bodies, gridFoot()));
+    activeCell = null;
+    const first = $('luoi').querySelector('tr[data-id] input[data-f="name"]');
+    if (first) setActive(first);
+    paintLine();
+  }
+
+  const gridRows = () => [...$('luoi').querySelectorAll('tr[data-id]')];
+  const colOf = (el) => (el.dataset.f === 'name' ? 0 : el.dataset.f === 'title' ? 1 : 1 + Number(el.dataset.day));
+  const cellAt = (tr, col) => (col === 0 ? tr.querySelector('input[data-f="name"]')
+    : col === 1 ? tr.querySelector('input[data-f="title"]')
+      : tr.querySelector(`td.o[data-day="${col - 1}"]`));
+
+  function moveFrom(el, key, shift) {
+    const rows = gridRows();
+    const next = TT.gridStep({ row: rows.indexOf(el.closest('tr')), col: colOf(el) }, key, shift, { rows: rows.length, cols: 2 + days.length });
+    if (!next) return false;
+    const target = cellAt(rows[next.row], next.col);
+    if (target && target !== el) {
+      target.focus();
+      if (target.matches('input')) target.select();
+    }
+    return true;
+  }
+
+  function markCell(cell, action) {
+    const tr = cell.parentElement;
+    const p = personOf(tr);
+    const d = days[Number(cell.dataset.day) - 1];
+    const was = p.days.includes(d.day);
+    const on = action.act === 'toggle' ? !was : action.act === 'set';
+    if (on !== was) {
+      TT.toggleDay(p, d.day);
+      edit();
+      cell.classList.toggle('bat', on);
+      cell.textContent = on ? d.type : '';
+      cell.setAttribute('aria-label', cellLabel(p, d, on));
+      const c = TT.countTypes(p, days);
+      for (const k of TOTAL_KEYS) tr.querySelector(`td.dem[data-k="${k}"]`).textContent = countText(c[k]);
+      renderOutput();
+    }
+    $('ghi-chu-o').textContent = (action.act === 'set' && TT.letterNote(action.letter, d.type, d.day)) || '';
+  }
+
+  function onGridClick(e) {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const act = btn.dataset.act;
+    if (act === 'them') {
+      const p = TT.addPerson(cur.monthData, btn.dataset.group);
+      edit();
+      renderGrid();
+      renderOutput();
+      const row = gridRows().find((tr) => tr.dataset.id === p.id);
+      if (row) row.querySelector('input').focus();
+      return;
+    }
+    const tr = btn.closest('tr');
+    const { group, id } = tr.dataset;
+    if (act === 'xoa') {
+      const name = TT.normalizeName(personOf(tr).name) || 'dòng này';
+      if (!confirm(`Xóa ${name} khỏi ${TT.GROUP_NAMES[group]} của tháng này?`)) return;
+      TT.removePerson(cur.monthData, group, id);
+    } else if (!TT.movePerson(cur.monthData, group, id, act === 'len' ? -1 : 1)) {
+      return;
+    }
+    edit();
+    renderGrid();
+    renderOutput();
+  }
+
+  function onGridDblClick(e) {
+    const cell = e.target.closest('td.o');
+    if (cell) markCell(cell, { act: 'toggle' });
+  }
+
+  function onGridFocus(e) {
+    const el = e.target.closest('td.o, input[data-f]');
+    if (!el) return;
+    setActive(el);
+    line = { id: el.closest('tr').dataset.id, day: el.dataset.day ?? null };
+    paintLine();
+  }
+
+  function onGridKey(e) {
+    if (e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+    const input = e.target.closest('input[data-f]');
+    if (input) {
+      if (['ArrowUp', 'ArrowDown', 'Enter'].includes(e.key) && moveFrom(input, e.key, e.shiftKey)) e.preventDefault();
+      return;
+    }
+    const cell = e.target.closest('td.o');
+    if (!cell) return;
+    if (moveFrom(cell, e.key, e.shiftKey)) {
+      e.preventDefault();
+      return;
+    }
+    const action = TT.cellKeyAction(e.key);
+    if (!action) return;
+    e.preventDefault();
+    markCell(cell, action);
+  }
+
+  function onGridInput(e) {
+    const input = e.target.closest('input[data-f]');
+    if (!input) return;
+    personOf(input.closest('tr'))[input.dataset.f] = input.value;
+    edit();
+    renderOutput();
+  }
+
+  function onGridChange(e) {
+    const input = e.target.closest('input[data-f]');
+    if (!input) return;
+    const p = personOf(input.closest('tr'));
+    p[input.dataset.f] = TT.normalizeName(input.value);
+    input.value = p[input.dataset.f];
+    edit();
+    renderOutput();
+  }
+
+  const unitText = (rates) => {
+    const u = TT.payGroup([], days, rates, true).unit;
+    return `${fm(u.T)} / ${fm(u.N)} / ${fm(u.L)}`;
+  };
+  const isCoef = (f) => f.startsWith('heSo');
+
+  function renderRates() {
+    const r = cur.monthData.rates;
+    $('bang-don-gia').replaceChildren(h('table', { class: 'gia' },
+      h('thead', {}, h('tr', {}, h('th', {}, 'Nhóm'), TT.RATE_FIELDS.map((f) => h('th', {}, TT.RATE_LABELS[f])), h('th', {}, 'Mỗi ngày T / N / L'))),
+      h('tbody', {}, TT.GROUP_IDS.map((g) => h('tr', {},
+        h('th', {}, TT.GROUP_NAMES[g]),
+        TT.RATE_FIELDS.map((f) => h('td', {}, h('input', {
+          type: 'text',
+          inputmode: 'decimal',
+          value: isCoef(f) ? coefText(r[g][f]) : fm(r[g][f]),
+          'aria-label': `${TT.GROUP_NAMES[g]}, ${TT.RATE_LABELS[f]}`,
+          dataset: { g, f },
+        }))),
+        h('td', { class: 'moingay' }, unitText(r[g])))))));
+  }
+
+  function onRateChange(e) {
+    const input = e.target.closest('input[data-g]');
+    if (!input) return;
+    const { g, f } = input.dataset;
+    const value = isCoef(f) ? TT.parseCoef(input.value) : TT.parseMoney(input.value);
+    if (Number.isNaN(value)) {
+      input.setAttribute('aria-invalid', 'true');
+      setStatus(`${TT.GROUP_NAMES[g]}, ${TT.RATE_LABELS[f]}: chỉ nhập số, ví dụ ${isCoef(f) ? '1,3' : '100.000'}.`, true);
+      return;
+    }
+    input.removeAttribute('aria-invalid');
+    cur.monthData.rates[g][f] = value;
+    input.value = isCoef(f) ? coefText(value) : fm(value);
+    edit();
+    input.closest('tr').querySelector('.moingay').textContent = unitText(cur.monthData.rates[g]);
+    renderOutput();
+  }
+
+  function renderHolidays() {
+    $('ngay-le-nam').textContent = String(ym.year);
+    $('ds-ngay-le').replaceChildren(...TT.holidaysOfYear(data.settings, ym.year).map((hd) => {
+      const [y, m, d] = hd.date.split('-').map(Number);
+      return h('tr', {},
+        h('td', {}, fmtDate(hd.date)),
+        h('td', {}, TT.WEEKDAY_FULL[new Date(Date.UTC(y, m - 1, d)).getUTCDay()]),
+        h('td', {}, hd.name),
+        h('td', {}, h('button', { type: 'button', class: 'nho', dataset: { date: hd.date }, 'aria-label': `Xóa ngày lễ ${fmtDate(hd.date)}` }, '×')));
+    }));
+  }
+
+  function renderSign() {
+    $('ngay-ky').value = cur.monthData.signDate ?? TT.defaultSignDate(ym.year, ym.month);
+    const labels = TT.signLabels(data.settings);
+    $('o-chu-ky').replaceChildren(...TT.SIGN_FORMS.map((form) => h('label', {},
+      `${FORM_TITLES[form]}: `,
+      h('input', { type: 'text', value: labels[form].join('; '), dataset: { form } }))));
+  }
+
+  function renderPrintChoices() {
+    $('chon-in').replaceChildren(
+      h('span', {}, 'Bảng cần in và xuất xlsx:'),
+      ...TT.SIGN_FORMS.map((form) => h('label', {}, h('input', { type: 'checkbox', checked: prefs.in[form], dataset: { form } }), ` ${FORM_TITLES[form]}`)));
+  }
+
+  function renderIssues() {
+    const { errors, warnings } = TT.validateMonth({ year: ym.year, month: ym.month, monthData: cur.monthData, settings: data.settings });
+    const box = $('canh-bao');
+    box.classList.toggle('co-loi', errors.length > 0);
+    box.replaceChildren(...[
+      errors.length ? h('ul', { class: 'loi' }, errors.map((x) => h('li', {}, x.message))) : null,
+      warnings.length ? h('ul', { class: 'canh' }, warnings.map((x) => h('li', {}, x.message))) : null,
+      h('p', { class: 'in-loi' }, 'Dữ liệu chưa hợp lệ, không dùng bản in này.'),
+    ].filter(Boolean));
+    $('in').disabled = errors.length > 0;
+    $('xuat-xlsx').disabled = errors.length > 0;
+  }
+
+  const cols = (widths) => {
+    const total = widths.reduce((s, w) => s + w, 0);
+    return h('colgroup', {}, widths.map((w) => h('col', { style: `width:${((w / total) * 100).toFixed(2)}%` })));
+  };
+
+  function formHead(form, ctx) {
+    const left = h('div', { class: 'trai-bang' },
+      h('div', { class: 'tenbv' }, ctx.hospital),
+      h('div', { class: 'khoa' }, h('b', {}, `${TT.TEXT.khoa} `), h('b', {}, ctx.dept)));
+    if (form === 'chamCong') {
+      return [
+        h('div', { class: 'dau-bang' }, left),
+        h('div', { class: 'tieude' }, TT.TEXT.titleCc),
+        h('div', { class: 'thangnam' }, `${TT.TEXT.month} ${ym.month} ${TT.TEXT.year} ${ym.year}`),
+      ];
+    }
+    return [
+      h('div', { class: 'dau-bang' }, left,
+        h('div', { class: 'phai-bang' }, h('b', {}, TT.TEXT.motto1), h('b', {}, TT.TEXT.motto2))),
+      h('div', { class: 'tieude' }, TT.TEXT.titlePay),
+      h('div', { class: 'thangnam' }, `${TT.TEXT.month} ${ym.month} ${TT.TEXT.year} ${ym.year}`),
+    ];
+  }
+
+  function formFoot(form, ctx, signText) {
+    return [
+      h('div', { class: 'ngay-ky' }, signText),
+      h('div', { class: 'ky' }, ctx.labels[form].map((label) => h('div', {}, label))),
+    ];
+  }
+
+  function timesheetForm(ctx) {
+    const t = TT.timesheetRows(cur.monthData, days);
+    const idx = Array.from({ length: 31 }, (_, i) => i);
+    const dc = (i) => formDayClass(days[i]);
+    const th = (text, props = {}) => h('th', props, text);
+    const head = [
+      h('tr', {},
+        th(TT.TEXT.sttCc, { rowspan: 3 }), th(TT.TEXT.name, { rowspan: 3 }), th(TT.TEXT.code, { rowspan: 3 }),
+        th(TT.TEXT.dayRange, { colspan: 31 }),
+        th(TT.TEXT.total, { rowspan: 4, class: 'nho' }),
+        th(TT.TEXT.dayGroup, { colspan: 3, rowspan: 2 }),
+        th(TT.TEXT.note, { rowspan: 3 })),
+      h('tr', {}, idx.map((i) => th(days[i] ? pad2(days[i].day) : '', { class: dc(i) }))),
+      h('tr', {},
+        idx.map((i) => h('th', { class: `thu ${dc(i)}` }, days[i] ? h('span', { class: 'doc' }, TT.WEEKDAY_FULL[days[i].weekday]) : '')),
+        th(TT.TEXT.regular, { class: 'nho' }), th(TT.TEXT.off, { class: 'nho' }), th(TT.TEXT.holiday, { class: 'nho' })),
+      h('tr', {}, th('A'), th('B'), th('C'),
+        idx.map((i) => th(days[i] ? String(days[i].day) : '', { class: dc(i) })),
+        th('A', { class: 'nho' }), th('B', { class: 'nho' }), th('C', { class: 'nho' }), th('')),
+    ];
+    const body = t.rows.map((r) => h('tr', {},
+      h('td', { class: 'giua' }, String(r.stt)),
+      h('td', { class: 'trai' }, r.name),
+      h('td', { class: 'cd' }, r.title),
+      idx.map((i) => h('td', { class: `o ${dc(i)}` }, days[i] && r.marks[i] ? 'T' : '')),
+      h('td', { class: 'giua dam' }, num(r.nTotal)), h('td', { class: 'giua' }, num(r.nT)),
+      h('td', { class: 'giua' }, num(r.nN)), h('td', { class: 'giua' }, num(r.nL)), h('td', {}, '')));
+    const pad = Array.from({ length: Math.max(0, TT.MIN_ROWS.chamCong - t.rows.length) }, () => h('tr', {},
+      h('td', {}, ''), h('td', {}, ''), h('td', {}, ''),
+      idx.map((i) => h('td', { class: dc(i) }, '')),
+      h('td', {}, ''), h('td', {}, ''), h('td', {}, ''), h('td', {}, ''), h('td', {}, '')));
+    const total = h('tr', { class: 'tong' },
+      h('td', {}, ''), h('td', { class: 'giua' }, TT.TEXT.totalCc), h('td', {}, ''),
+      idx.map((i) => h('td', { class: `giua ${dc(i)}` }, days[i] ? String(t.dayTotals[i]) : '')),
+      h('td', { class: 'giua' }, String(t.sums.nTotal)), h('td', { class: 'giua' }, String(t.sums.nT)),
+      h('td', { class: 'giua' }, String(t.sums.nN)), h('td', { class: 'giua' }, String(t.sums.nL)), h('td', {}, ''));
+    const widths = [4.3, 20.7, 6.3, ...Array(31).fill(2.7), 4.4, 5, 4.9, 3.1, 8.4];
+    return h('section', { class: 'form', dataset: { form: 'chamCong' } },
+      h('h3', { class: 'no-print' }, FORM_TITLES.chamCong),
+      formHead('chamCong', ctx),
+      h('table', { class: 'bang cc' }, cols(widths), h('thead', {}, head), h('tbody', {}, body, pad, total)),
+      formFoot('chamCong', ctx, ctx.sign.timesheet));
+  }
+
+  function payForm(group, ctx) {
+    const g = pay[group];
+    const th = (text, props = {}) => h('th', props, text);
+    const head = [
+      h('tr', {},
+        th(TT.TEXT.stt, { rowspan: 3 }), th(TT.TEXT.name, { rowspan: 3 }), th(TT.TEXT.title, { rowspan: 3 }),
+        th(TT.TEXT.workT, { colspan: 2 }), th(TT.TEXT.workN, { colspan: 2 }), th(TT.TEXT.workL, { colspan: 2 }),
+        th(TT.TEXT.total, { colspan: 2, rowspan: 2 }), th(fm(g.unit.meal)),
+        th(TT.TEXT.net, { rowspan: 3 }), th(TT.TEXT.receipt, { rowspan: 3 })),
+      h('tr', {},
+        th(fm(g.unit.T), { colspan: 2 }), th(fm(g.unit.N), { colspan: 2 }), th(fm(g.unit.L), { colspan: 2 }),
+        th(TT.TEXT.meal, { rowspan: 2, class: 'nho' })),
+      h('tr', {}, Array.from({ length: 8 }, (_, i) => th(i % 2 === 0 ? TT.TEXT.totalDays : TT.TEXT.amount))),
+    ];
+    const figures = (r) => [
+      h('td', { class: 'giua' }, num(r.nT)), h('td', { class: 'phai' }, fm(r.amtT)),
+      h('td', { class: 'giua' }, num(r.nN)), h('td', { class: 'phai' }, fm(r.amtN)),
+      h('td', { class: 'giua' }, num(r.nL)), h('td', { class: 'phai' }, fm(r.amtL)),
+      h('td', { class: 'giua' }, num(r.nTotal)), h('td', { class: 'phai' }, fm(r.amount)),
+      h('td', { class: 'phai' }, fm(r.meal)), h('td', { class: 'phai dam' }, fm(r.net)), h('td', {}, ''),
+    ];
+    const body = g.rows.map((r) => h('tr', {},
+      h('td', { class: 'giua' }, String(r.stt)), h('td', { class: 'trai' }, r.name), h('td', { class: 'cd' }, r.title), figures(r)));
+    const pad = Array.from({ length: Math.max(0, TT.MIN_ROWS[group] - g.rows.length) }, () => h('tr', {}, Array.from({ length: 14 }, () => h('td', {}, ''))));
+    const total = h('tr', { class: 'tong' }, h('td', { colspan: 2, class: 'giua' }, TT.TEXT.totalPay), h('td', {}, ''), figures(g.total));
+    const widths = [3.7, 22, 6.4, 6.3, 11.1, 6.1, 11.2, 6.1, 11.1, 5.4, 11.4, 11.4, 11.3, 10];
+    return h('section', { class: 'form', dataset: { form: group } },
+      h('h3', { class: 'no-print' }, `Bảng thanh toán ${FORM_TITLES[group]}`),
+      formHead(group, ctx),
+      h('table', { class: 'bang tt' }, cols(widths), h('thead', {}, head), h('tbody', {}, body, pad, total)),
+      h('div', { class: 'chu' }, h('span', { class: 'nhan' }, TT.TEXT.words), h('span', { class: 'gtri' }, g.words)),
+      formFoot(group, ctx, ctx.sign.pay));
+  }
+
+  function applyPrintMarks() {
+    let first = true;
+    for (const el of $('cac-bang').querySelectorAll('.form')) {
+      const skip = !prefs.in[el.dataset.form];
+      el.classList.toggle('skip', skip);
+      el.classList.toggle('dau', !skip && first);
+      if (!skip) first = false;
+    }
+  }
+
+  function renderForms() {
+    const ctx = {
+      hospital: TT.normalizeName(data.settings.hospital),
+      dept: TT.normalizeName(data.settings.department),
+      sign: TT.signDateTexts(cur.monthData.signDate ?? TT.defaultSignDate(ym.year, ym.month)),
+      labels: TT.signLabels(data.settings),
+    };
+    $('cac-bang').replaceChildren(timesheetForm(ctx), payForm('thuong', ctx), payForm('dacBiet', ctx), payForm('ngoaiBV', ctx));
+    applyPrintMarks();
+  }
+
+  function renderOutput() {
+    pay = TT.payAll(cur.monthData, days);
+    renderIssues();
+    renderForms();
+    updateFooter();
+  }
+
+  function refresh() {
+    cur = TT.getMonth(data, ym.year, ym.month, template);
+    days = TT.monthDays(ym.year, ym.month, TT.holidayIsoSet(data.settings));
+    $('ghi-chu-o').textContent = '';
+    line = null;
+    renderTop();
+    renderGrid();
+    renderRates();
+    renderHolidays();
+    renderSign();
+    renderOutput();
+  }
+
+  function goTo(year, month) {
+    ym = { year, month };
+    if (TT.seedHolidays(data.settings, year) > 0) persistSoon();
+    refresh();
+  }
+
+  function download(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = h('a', { href: url, download: name });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function downloadJson() {
+    download(new Blob([serialize()], { type: 'application/json' }), 'truc_thang_du_lieu.json');
+    setStatus('Đã tạo file truc_thang_du_lieu.json trong thư mục tải về.');
+  }
+
+  function exportXlsx() {
+    const forms = TT.SIGN_FORMS.filter((form) => prefs.in[form]);
+    if (!forms.length) {
+      setStatus('Chọn ít nhất một bảng để xuất xlsx.', true);
+      return;
+    }
+    const sheets = TT.buildSheets({ year: ym.year, month: ym.month, monthData: cur.monthData, settings: data.settings, days, forms });
+    const name = TT.xlsxFileName(ym.year, ym.month);
+    download(new Blob([TT.xlsxBytes(sheets)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), name);
+    setStatus(`Đã tạo file ${name} trong thư mục tải về, gồm ${sheets.length} sheet: ${sheets.map((sh) => sh.name).join(', ')}. File chỉ có số, không có công thức.`);
+  }
+
+  async function openJson(e) {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    let parsed;
+    try {
+      parsed = TT.parseDataText(await file.text());
+    } catch (err) {
+      showNotice(err.message);
+      return;
+    }
+    if (!confirm('Thay toàn bộ dữ liệu đang có bằng nội dung file này?')) return;
+    showNotice('');
+    data = parsed;
+    persistSoon();
+    goTo(ym.year, ym.month);
+  }
+
+  async function importXlsxFile(e) {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    let imported;
+    try {
+      if (file.size > 64 * 1024 * 1024) throw new Error('File quá lớn.');
+      imported = await TT.importXlsx(new Uint8Array(await file.arrayBuffer()));
+    } catch (err) {
+      showNotice(`Không nhập được ${file.name}: ${err.message}`);
+      return;
+    }
+    const rows = TT.GROUP_IDS.reduce((sum, g) => sum + imported.groups[g].length, 0);
+    const duty = TT.GROUP_IDS.reduce((sum, g) => sum + imported.groups[g].reduce((t, r) => t + r.days.length, 0), 0);
+    const filled = TT.GROUP_IDS.filter((g) => imported.rates[g]).map((g) => TT.GROUP_NAMES[g]).join(', ') || 'không nhóm nào';
+    const source = imported.source === 'tong'
+      ? 'Đọc từ sheet "tổng".'
+      : 'File không có sheet "tổng", đọc từ sheet "bảng chấm công in" (sheet này không có người không trực ở nhóm đặc biệt và ngoài BV).';
+    const newHolidays = imported.holidays.filter((date) => !data.settings.holidays.some((h) => h.date === date));
+    const question = [
+      `Nhập "${file.name}" vào tháng ${imported.month}/${imported.year}?`,
+      source,
+      `File có ${rows} dòng người, ${duty} ngày trực. Đơn giá và hệ số sẽ điền cho: ${filled}.`,
+      ...(newHolidays.length ? [`Ngày có chữ L chưa có trong mục Ngày lễ sẽ được thêm (chưa xác nhận): ${newHolidays.map(fmtDate).join(', ')}.`] : []),
+      'Ngày trực và đơn giá hiện có của tháng này sẽ bị thay. Người không có trong file giữ tên nhưng mất ngày trực.',
+      ...imported.notes.map((n) => `Lưu ý: ${n}`),
+    ];
+    if (!confirm(question.join('\n'))) return;
+    showNotice('');
+    const done = TT.applyImport(data, imported, template);
+    persistSoon();
+    goTo(imported.year, imported.month);
+    $('ghi-chu-o').textContent = `Đã nhập ${file.name} vào tháng ${imported.month}/${imported.year}: thêm ${done.added} người, cập nhật ${done.updated}, xóa ngày trực của ${done.cleared}, điền đơn giá cho ${done.ratesFilled.length} nhóm. ${done.notes.join(' ')}`.trim();
+  }
+
+  function addHoliday() {
+    try {
+      TT.addHoliday(data.settings, { date: $('le-ngay').value, name: $('le-ten').value });
+    } catch (err) {
+      $('le-loi').textContent = err.message;
+      return;
+    }
+    $('le-loi').textContent = '';
+    $('le-ngay').value = '';
+    $('le-ten').value = '';
+    persistSoon();
+    refresh();
+  }
+
+  function editSignLabels(input) {
+    const form = input.dataset.form;
+    const list = input.value.split(';').map(TT.normalizeName).filter(Boolean);
+    const labels = data.settings.signLabels ?? (data.settings.signLabels = {});
+    if (!list.length || list.join('|') === TT.SIGN_LABELS[form].join('|')) delete labels[form];
+    else labels[form] = list;
+    if (Object.keys(labels).length === 0) delete data.settings.signLabels;
+    input.value = TT.signLabels(data.settings)[form].join('; ');
+    persistSoon();
+    renderForms();
+  }
+
+  function bind() {
+    $('thang').replaceChildren(...Array.from({ length: 12 }, (_, i) => h('option', { value: String(i + 1) }, `Tháng ${i + 1}`)));
+    const step = (delta) => {
+      const n = TT.shiftMonth(ym.year, ym.month, delta);
+      goTo(n.year, n.month);
+    };
+    $('thang-truoc').onclick = () => step(-1);
+    $('thang-sau').onclick = () => step(1);
+    $('thang-nay').onclick = () => goTo(new Date().getFullYear(), new Date().getMonth() + 1);
+    $('thang').onchange = (e) => goTo(ym.year, Number(e.target.value));
+    $('nam').onchange = (e) => {
+      const y = Number(e.target.value);
+      if (Number.isInteger(y) && y >= 2000 && y <= 2100) goTo(y, ym.month);
+      else e.target.value = String(ym.year);
+    };
+    $('benh-vien').oninput = (e) => {
+      data.settings.hospital = e.target.value;
+      persistSoon();
+      renderForms();
+    };
+    $('khoa').oninput = (e) => {
+      data.settings.department = e.target.value;
+      persistSoon();
+      renderForms();
+    };
+    $('luu-json').onclick = downloadJson;
+    $('xuat-xlsx').onclick = exportXlsx;
+    $('mo-json').onclick = () => $('chon-json').click();
+    $('chon-json').onchange = openJson;
+    $('nhap-xlsx').onclick = () => $('chon-xlsx').click();
+    $('chon-xlsx').onchange = importXlsxFile;
+    $('in').onclick = () => window.print();
+    const grid = $('luoi');
+    grid.addEventListener('click', onGridClick);
+    grid.addEventListener('dblclick', onGridDblClick);
+    grid.addEventListener('focusin', onGridFocus);
+    grid.addEventListener('keydown', onGridKey);
+    grid.addEventListener('input', onGridInput);
+    grid.addEventListener('change', onGridChange);
+    $('bang-don-gia').addEventListener('change', onRateChange);
+    $('ds-ngay-le').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-date]');
+      if (!btn) return;
+      TT.removeHoliday(data.settings, btn.dataset.date);
+      persistSoon();
+      refresh();
+    });
+    $('le-them').onclick = addHoliday;
+    $('ngay-ky').onchange = (e) => {
+      const fallback = TT.defaultSignDate(ym.year, ym.month);
+      const value = e.target.value || fallback;
+      cur.monthData.signDate = value === fallback ? null : value;
+      e.target.value = value;
+      edit();
+      renderForms();
+    };
+    $('o-chu-ky').addEventListener('change', (e) => {
+      if (e.target.dataset.form) editSignLabels(e.target);
+    });
+    $('chon-in').addEventListener('change', (e) => {
+      const form = e.target.dataset.form;
+      if (!form) return;
+      prefs.in[form] = e.target.checked;
+      savePrefs();
+      applyPrintMarks();
+    });
+    const flush = () => {
+      if (saveTimer) {
+        clearTimeout(saveTimer);
+        save();
+      }
+    };
+    window.addEventListener('pagehide', flush);
+    window.addEventListener('beforeunload', flush);
+  }
+
+  const LOCAL_DEFAULTS = 'local/mac_dinh.js';
+
+  const monthLabel = (key) => {
+    const m = TT.parseMonthKey(key);
+    return `tháng ${m.month}/${m.year}`;
+  };
+
+  // Trang mở bằng file không đọc thẳng được file JSON trên ổ đĩa, nhưng nạp được file .js bằng thẻ script.
+  // Trả về undefined khi không có file, null khi file có nhưng không gán dữ liệu, còn lại là dữ liệu.
+  function loadLocalDefaults() {
+    return new Promise((resolve) => {
+      if (location.protocol !== 'file:') {
+        resolve(undefined);
+        return;
+      }
+      const script = document.createElement('script');
+      script.onload = () => {
+        const value = window.TT_MAC_DINH;
+        window.TT_MAC_DINH = undefined;
+        script.remove();
+        resolve(value === undefined ? null : value);
+      };
+      script.onerror = () => {
+        script.remove();
+        resolve(undefined);
+      };
+      script.src = LOCAL_DEFAULTS;
+      document.head.append(script);
+    });
+  }
+
+  // Mặc định chỉ có đơn giá. Bản cũ của trang từng chép cả tên và chức danh vào trình duyệt, nên lần đầu sau khi đổi trang dọn một
+  // lần những tháng chưa có ngày trực nào. Cờ này lưu trong trình duyệt để lần sau không dọn nữa.
+  const PRICES_ONLY_KEY = 'truc_thang_mac_dinh_chi_gia_v1';
+
+  function pricesOnlyDone() {
+    try {
+      return localStorage.getItem(PRICES_ONLY_KEY) === '1';
+    } catch {
+      return false;
+    }
+  }
+
+  function markPricesOnlyDone() {
+    try {
+      localStorage.setItem(PRICES_ONLY_KEY, '1');
+    } catch {
+      // không ghi được cờ thì lần sau kiểm tra lại, chỉ động tới tháng chưa có ngày trực nào
+    }
+  }
+
+  async function importLocalDefaults() {
+    const defaults = await loadLocalDefaults();
+    if (defaults === undefined) return '';
+    if (defaults === null) {
+      showNotice(`${LOCAL_DEFAULTS} có nhưng không nạp được số liệu (cần dòng window.TT_MAC_DINH = {...}; và file không lỗi cú pháp).`);
+      return '';
+    }
+    try {
+      const added = TT.mergeDefaults(data, defaults);
+      template = TT.monthTemplate(defaults);
+      const cleared = pricesOnlyDone() ? [] : TT.clearIdleRosters(data);
+      markPricesOnlyDone();
+      if (added.length === 0 && cleared.length === 0) return '';
+      persistSoon();
+      return [
+        added.length ? `Đã nạp ${added.map(monthLabel).join(', ')} từ ${LOCAL_DEFAULTS} (tháng chưa có trong trình duyệt, chỉ có đơn giá, tên và chức danh để trống).` : '',
+        cleared.length ? `Đã bỏ tên và chức danh nạp sẵn ở ${cleared.map(monthLabel).join(', ')} (tháng chưa có ngày trực nào). Muốn có tên, bấm Nhập từ xlsx hoặc + Thêm người.` : '',
+      ].filter(Boolean).join(' ');
+    } catch (err) {
+      showNotice(`${LOCAL_DEFAULTS} không dùng được: ${err.message}`);
+      return '';
+    }
+  }
+
+  async function init() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        try {
+          data = TT.parseDataText(raw);
+        } catch (err) {
+          corruptRaw = raw;
+          showNotice(`${err.message}. Trang bắt đầu với dữ liệu trống. Bản lỗi được giữ lại trong trình duyệt. Muốn nạp lại từ file JSON sao lưu, mở trang với đuôi #json rồi bấm Mở file JSON.`);
+        }
+      }
+      const saved = JSON.parse(localStorage.getItem(PREFS_KEY) || 'null');
+      if (saved && saved.in) prefs = { in: { ...prefs.in, ...saved.in } };
+    } catch {
+      setStatus('Trình duyệt chặn lưu dữ liệu. Hãy bấm Xuất xlsx để giữ bản.', true);
+    }
+    bind();
+    // Hai nút JSON ẩn sẵn; thêm đuôi #json vào địa chỉ thì hiện lại để sao lưu hoặc nạp lại dữ liệu.
+    const showJsonButtons = () => {
+      for (const name of ['luu-json', 'mo-json']) $(name).hidden = location.hash !== '#json';
+    };
+    showJsonButtons();
+    window.addEventListener('hashchange', showJsonButtons);
+    renderPrintChoices();
+    const imported = await importLocalDefaults();
+    goTo(ym.year, ym.month);
+    if (imported) $('ghi-chu-o').textContent = imported;
+    if (!$('trang-thai').textContent) setStatus('Dữ liệu tự lưu trong trình duyệt.');
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

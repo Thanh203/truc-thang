@@ -1,0 +1,14 @@
+{
+  "name": "truc_thang",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Trang HTML chấm công trực, công thức có sẵn, in bốn bảng",
+  "scripts": {
+    "test": "node --test",
+    "check:pii": "node scripts/check_no_pii.js"
+  },
+  "engines": {
+    "node": ">=20.12"
+  }
+}
